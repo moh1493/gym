@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="gym_diet_food_form_view" model="ir.ui.view">
+        <field name="name">gym.diet.food.form.view</field>
+        <field name="model">food.item</field>
+        <field name="arch" type="xml">
+             <form>
+                <sheet>
+                    <field name="avatar" widget="image" class="oe_avatar"
+                           options="{&quot;preview_image&quot;: &quot;avatar&quot;}"/>
+                    <div class="oe_title mb24">
+                        <h1>
+                            <field class="text-break" name="name" default_focus="1" placeholder="Name"/>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="food_type"/>
+                            </group>
+                        </group>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="gym_diet_food_tree_view" model="ir.ui.view">
+        <field name="name">gym.diet.food.tree.view</field>
+        <field name="model">food.item</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="food_type"/>
+            </tree>
+        </field>
+    </record>
+      <record id="diet_food_kanan_view" model="ir.ui.view">
+            <field name="name">diet.food.kanban.view</field>
+            <field name="model">food.item</field>
+            <field name="priority">10</field>
+            <field name="arch" type="xml">
+                <kanban sample="1">
+                    <field name="id"/>
+                    <field name="name"/>
+                    <field name="food_type"/>
+                    <field name="avatar" />
+                    <templates>
+                        <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_hr_kanban_record">
+                            <field name="avatar" widget="image" class="o_kanban_image_fill_left" options="{'zoom': true, 'zoom_delay': 1000, 'background': true, 'preventClicks': false}"/>
+                            <div class="oe_kanban_details">
+                                <strong>
+                                    <field name="name" />
+                                </strong>
+                            </div>
+                        </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+     </record>
+    <record id="gym_diet_food_action" model="ir.actions.act_window">
+        <field name="name">Foods</field>
+        <field name="res_model">food.item</field>
+        <field name="view_mode">kanban,tree,form</field>
+    </record>
+</odoo>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="gym_exercise_for_form_view" model="ir.ui.view">
+        <field name="name">gym.exercise.for.form.view</field>
+        <field name="model">exercise.for</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Exercise For"/>
+                        <h1>
+                            <div class="d-flex">
+                                <field class="o_text_overflow" name="name" modifiers="{&quot;required&quot;: true}"/>
+                            </div>
+                        </h1>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="gym_exercise_for_tree_view" model="ir.ui.view">
+        <field name="name">gym.exercise.for.tree.view</field>
+        <field name="model">exercise.for</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    <record id="gym_exercise_for_action" model="ir.actions.act_window">
+        <field name="name">Gym Exercise For</field>
+        <field name="res_model">exercise.for</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

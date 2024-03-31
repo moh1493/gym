@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="gym_employee_form_view" model="ir.ui.view">
+        <field name="name">gym.employee.form.view</field>
+        <field name="model">hr.employee</field>
+        <field name="priority">1000</field>
+        <field name="arch" type="xml">
+            <form string="Employee" js_class="hr_employee_form" class="o_employee_form">
+                <field name="active" invisible="1" modifiers="{&quot;invisible&quot;: true}"/>
+                <field name="user_partner_id" invisible="1" can_create="true" can_write="true"
+                       modifiers="{&quot;invisible&quot;: true, &quot;readonly&quot;: true}"/>
+                <field name="hr_presence_state" invisible="1"
+                       modifiers="{&quot;invisible&quot;: true, &quot;readonly&quot;: true}"/>
+                <field name="image_128" invisible="1" on_change="1"
+                       modifiers="{&quot;invisible&quot;: true, &quot;readonly&quot;: true}"/>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object" name="gym_member" string="Members" icon="fa-users"
+                                style="background-color:LightGray;color:mediumpurple">
+                            <field name="member_count"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
+                            attrs="{'invisible': [('active', '=', True)]}"
+                            modifiers="{&quot;invisible&quot;: [[&quot;active&quot;, &quot;=&quot;, true]]}"/>
+                    <field name="avatar_128" invisible="1"
+                           modifiers="{&quot;invisible&quot;: true, &quot;readonly&quot;: true}"/>
+                    <field name="image_1920" widget="image" class="oe_avatar"
+                           options="{&quot;zoom&quot;: true, &quot;preview_image&quot;:&quot;avatar_128&quot;}"
+                           modifiers="{}"/>
+                    <div class="oe_title">
+                        <h1 class="d-flex">
+                            <field name="name" placeholder="Trainer Name" required="True"
+                                   modifiers="{&quot;required&quot;: true}"/>
+                            <a title="Chat" icon="fa-comments" href="#" class="ml8 o_employee_chat_btn"
+                               invisible="not context.get('chat_icon')" attrs="{'invisible': [('user_id','=', False)]}"
+                               role="button"
+                               modifiers="{&quot;invisible&quot;: [[&quot;user_id&quot;, &quot;=&quot;, false]]}">
+                                <i class="fa fa-comments"/>
+                            </a>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="job_title" placeholder="Job Position" modifiers="{}"/>
+                            <field name="category_ids" widget="many2many_tags" string="Specialization"
+                                   options="{'color_field': 'color', 'no_create_edit': True}" placeholder="Tags"
+                                   can_create="true" can_write="true" modifiers="{}"/>
+                            <field name="department_id" on_change="1" can_create="true" can_write="true"
+                                   modifiers="{}"/>
+                        </group>
+                        <group>
+                            <field name="mobile_phone" widget="phone" modifiers="{}"/>
+                            <field name="work_email" widget="email" modifiers="{}"/>
+                              <field name="is_trainer" modifiers="{}"/>
+
+                            <field name="company_id" on_change="1" can_create="true" can_write="true" invisible="1"
+                                   modifiers="{&quot;invisible&quot;: true, &quot;required&quot;: true}"/>
+                            <field name="company_country_id" invisible="1" on_change="1" can_create="true"
+                                   can_write="true"
+                                   modifiers="{&quot;invisible&quot;: true, &quot;readonly&quot;: true}"/>
+                            <field name="company_country_code" invisible="1"
+                                   modifiers="{&quot;invisible&quot;: true, &quot;readonly&quot;: true}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="public" string="Work Information">
+                            <div id="o_work_employee_container"> <!-- These two div are used to position org_chart -->
+                                <div id="o_work_employee_main">
+                                    <group string="Location">
+                                        <field name="address_id" context="{'show_address': 1}"
+                                               options="{&quot;always_reload&quot;: True, &quot;highlight_first_line&quot;: True}"
+                                               on_change="1" can_create="true" can_write="true" modifiers="{}"/>
+                                        <field name="work_location_id" context="{'default_address_id': address_id}"
+                                               can_create="true" can_write="true" modifiers="{}"/>
+                                    </group>
+                                    <group string="Schedule">
+                                        <field name="resource_calendar_id" required="1" on_change="1" can_create="true"
+                                               can_write="true" modifiers="{&quot;required&quot;: true}"/>
+                                        <field name="id" invisible="1"
+                                               modifiers="{&quot;invisible&quot;: true, &quot;readonly&quot;: true}"/>
+                                        <field name="tz" attrs="{'required': [('id', '!=', False)]}"
+                                               modifiers="{&quot;required&quot;: [[&quot;id&quot;, &quot;!=&quot;, false]]}"/>
+                                    </group>
+                                </div>
+                                <div id="o_employee_right">
+                                    <h4 class="o_org_chart_title mb16 mt0">Organization Chart</h4>
+                                    <field name="child_ids" widget="hr_org_chart" readonly="1"
+                                           modifiers="{&quot;readonly&quot;: true}"/>
+                                </div>
+                            </div>
+                        </page>
+                        <page name="personal_information" string="Private Information">
+                            <group>
+                                <group string="Private Contact">
+                                    <field name="private_email" string="Email"/>
+                                    <field name="phone" class="o_force_ltr" string="Phone"/>
+                                    <field name="lang" string="Language" modifiers="{}"/>
+                                    <label for="street" string="Address"/>
+                                    <div class="o_address_format">
+                                        <field name="street" placeholder="Street..." class="o_address_street"/>
+                                        <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+                                        <field name="city" placeholder="City" class="o_address_city"/>
+                                        <field name="state_id" class="o_address_state" placeholder="State"
+                                               options="{'no_quick_create': True}"
+                                               context="{'default_country_id': country_id}"/>
+                                        <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                                        <field name="country_id" placeholder="Country" class="o_address_country"
+                                               options='{"no_create": True}'/>
+                                    </div>
+                                    <label for="km_home_work"/>
+                                    <div class="o_row" name="div_km_home_work">
+                                        <field name="km_home_work" modifiers="{}"/>
+                                        <span>Km</span>
+                                    </div>
+                                </group>
+                                <group string="Citizenship">
+                                    <field name="identification_id" modifiers="{}"/>
+                                    <field name="passport_id" modifiers="{}"/>
+                                    <field name="gender" modifiers="{}"/>
+                                    <field name="birthday" modifiers="{}"/>
+                                </group>
+                                <group string="Emergency">
+                                    <field name="emergency_contact" modifiers="{}"/>
+                                    <field name="emergency_phone" class="o_force_ltr" modifiers="{}"/>
+                                </group>
+                                <group string="Education">
+                                    <field name="certificate" modifiers="{}"/>
+                                    <field name="study_field" modifiers="{}"/>
+                                    <field name="study_school" modifiers="{}"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page name="hr_settings" string="HR Settings">
+                            <group>
+                                <group string="Status" name="active_group">
+                                    <field name="employee_type" modifiers="{&quot;required&quot;: true}"/>
+                                    <field name="user_id" string="Related User" domain="[('share', '=', False)]"
+                                           on_change="1" can_create="true" can_write="true" modifiers="{}"/>
+                                </group>
+                                <group string="Employee Badge(Attendance)" name="identification_group">
+                                    <field name="pin" string="PIN Code" modifiers="{}"/>
+                                    <label for="barcode"/>
+                                    <div class="o_row">
+                                        <field name="barcode" modifiers="{}"/>
+                                        <button string="Generate" class="btn btn-link" type="object"
+                                                name="generate_random_barcode"
+                                                attrs="{'invisible': [('barcode', '!=', False)]}"
+                                                modifiers="{&quot;invisible&quot;: [[&quot;barcode&quot;, &quot;!=&quot;, false]]}"/>
+                                    </div>
+                                </group>
+                                <group string="Payroll" name="payroll_group">
+                                    <field name="job_id" on_change="1" can_create="true" can_write="true"
+                                           modifiers="{}"/>
+                                </group>
+                                <group name="application_group"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" modifiers="{}"/>
+                    <field name="activity_ids" modifiers="{}"/>
+                    <field name="message_ids" modifiers="{}"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="gym_employee_tree_view" model="ir.ui.view">
+        <field name="name">gym.employee.tree.view</field>
+        <field name="model">hr.employee</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="work_phone"/>
+                <field name="work_email"/>
+                <field name="department_id"/>
+                <field name="category_ids" string="Specialization"
+                       widget="many2many_tags"
+                       options="{'color_field': 'color', 'no_create_edit': True}"/>
+            </tree>
+        </field>
+    </record>
+    <record id="gym_employee_action" model="ir.actions.act_window">
+        <field name="name">Gym Trainers</field>
+        <field name="res_model">hr.employee</field>
+        <field name="view_mode">kanban,tree,form</field>
+         <field name="domain">[('is_trainer','=',True)]</field>
+        <field name="context">{'default_is_trainer':True}</field>
+        <field name="view_id" ref="hr.hr_kanban_view_employees"/>
+        <field name="view_ids"
+               eval="[(5, 0, 0),
+                  (0, 0, {'view_mode': 'kanban', 'view_id': ref('hr.hr_kanban_view_employees')}),
+                  (0, 0, {'view_mode': 'tree', 'view_id': ref('gym_employee_tree_view')}),
+                  (0, 0, {'view_mode': 'form', 'view_id': ref('gym_employee_form_view')})]"/>
+    </record>
+</odoo>

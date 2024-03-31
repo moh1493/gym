@@ -1,0 +1,684 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <template id="gym_diet_reports">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="i">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <br/>
+                            <center>
+                                <h3>Diet Reports</h3>
+                            </center>
+                            <style>
+                                table {
+                                font-family: sans-serif;
+                                border-collapse: collapse;
+                                width: 100%; height:100%;
+                                }
+
+                                td, th ,tr{
+                                border: 1px solid #dddddd;
+                                text-align: left;
+                                padding: 8px;
+                                }
+                            </style>
+                            <br/>
+                            <table>
+                                 <tr>
+                                    <th>Name</th>
+                                    <td>
+                                        <span t-field="i.member_id"/>
+                                    </td>
+                                    <th>
+                                        Date
+                                    </th>
+                                    <td style=" text-align: center;">
+                                        <span t-field="i.date"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+                            <table>
+                                <tr>
+                                    <th style="width:10%; font-size:13px;"></th>
+                                    <th style="width:18%; font-size:13px;">Breakfast</th>
+                                    <th style="width:18%; font-size:13px;">Mid Morning Snacks</th>
+                                    <th style="width:18%; font-size:13px;">Lunch</th>
+                                    <th style="width:18%; font-size:13px;">Evening Snacks</th>
+                                    <th style="width:18%; font-size:13px;">Dinner</th>
+                                </tr>
+                                <tr t-if="i.diet_meal_ids">
+                                    <th style="font-size:13px;">Sunday</th>
+                                    <td>
+                                        <t t-foreach="i.diet_meal_ids" t-as="dm">
+                                            <t t-if="dm.day == 'sunday'">
+                                                <ul style="list-style-type:none !important;margin:0!important;padding:0!important;font-size:13px!important;">
+                                                    <t t-foreach="dm.breakfast_ids" t-as="breakfast">
+                                                        <li>
+                                                            <t t-esc="breakfast.food_item_id.name"/>
+                                                               <br/>
+                                                            &#160;&#160;&#160;-
+                                                            <t t-esc="breakfast.qty"/>
+                                                            <t t-esc="breakfast.unit"/>
+                                                        </li>
+                                                    </t>
+                                                </ul>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-foreach="i.diet_meal_ids" t-as="dm">
+                                            <t t-if="dm.day == 'sunday'">
+                                                <ul style="list-style-type:none !important;margin:0!important;padding:0!important;font-size:13px!important;">
+                                                    <t t-foreach="dm.morning_snack_ids" t-as="ms">
+                                                        <li>
+                                                            <t t-esc="ms.food_item_id.name"/>
+                                                               <br/>
+                                                            &#160;&#160;&#160;-
+                                                            <t t-esc="ms.qty"/>
+                                                            <t t-esc="ms.unit"/>
+                                                        </li>
+                                                    </t>
+                                                </ul>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-foreach="i.diet_meal_ids" t-as="dm">
+                                            <t t-if="dm.day == 'sunday'">
+                                                <ul style="list-style-type:none !important;margin:0!important;padding:0!important;font-size:13px!important;">
+                                                    <t t-foreach="dm.lunch_ids" t-as="lunch">
+                                                        <li>
+                                                            <t t-esc="lunch.food_item_id.name"/>
+                                                               <br/>
+                                                            &#160;&#160;&#160;-
+                                                            <t t-esc="lunch.qty"/>
+                                                            <t t-esc="lunch.unit"/>
+                                                        </li>
+                                                    </t>
+                                                </ul>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-foreach="i.diet_meal_ids" t-as="dm">
+                                            <t t-if="dm.day == 'sunday'">
+                                                <ul style="list-style-type:none !important;margin:0!important;padding:0!important;font-size:13px!important;">
+                                                    <t t-foreach="dm.evening_snack_ids" t-as="es">
+                                                        <li>
+                                                            <t t-esc="es.food_item_id.name"/>
+                                                               <br/>
+                                                            &#160;&#160;&#160;-
+                                                            <t t-esc="es.qty"/>
+                                                            <t t-esc="es.unit"/>
+                                                        </li>
+                                                    </t>
+                                                </ul>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-foreach="i.diet_meal_ids" t-as="dm">
+                                            <t t-if="dm.day == 'sunday'">
+                                                <ul style="list-style-type:none !important;margin:0!important;padding:0!important;font-size:13px!important;">
+                                                    <t t-foreach="dm.dinner_ids" t-as="dinner">
+                                                        <li>
+                                                            <t t-esc="dinner.food_item_id.name"/>
+                                                               <br/>
+                                                            &#160;&#160;&#160;-
+                                                            <t t-esc="dinner.qty"/>
+                                                            <t t-esc="dinner.unit"/>
+                                                        </li>
+                                                    </t>
+                                                </ul>
+                                            </t>
+                                        </t>
+                                    </td>
+                                </tr>
+                                <tr t-if="i.diet_meal_ids">
+                                    <th style="font-size:13px;">Monday</th>
+                                    <td>
+                                        <t t-foreach="i.diet_meal_ids" t-as="dm">
+                                            <t t-if="dm.day == 'monday'">
+                                                <ul style="list-style-type:none !important;margin:0!important;padding:0!important;font-size:13px!important;">
+                                                    <t t-foreach="dm.breakfast_ids" t-as="breakfast">
+                                                        <li>
+                                                            <t t-esc="breakfast.food_item_id.name"/>
+                                                               <br/>
+                                                            &#160;&#160;&#160;-
+                                                            <t t-esc="breakfast.qty"/>
+                                                            <t t-esc="breakfast.unit"/>
+                                                        </li>
+                                                    </t>
+                                                </ul>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-foreach="i.diet_meal_ids" t-as="dm">
+                                            <t t-if="dm.day == 'monday'">
+                                                <ul style="list-style-type:none !important;margin:0!important;padding:0!important;font-size:13px!important;">
+                                                    <t t-foreach="dm.morning_snack_ids" t-as="ms">
+                                                        <li>
+                                                            <t t-esc="ms.food_item_id.name"/>
+                                                               <br/>
+                                                            &#160;&#160;&#160;-
+                                                            <t t-esc="ms.qty"/>
+                                                            <t t-esc="ms.unit"/>
+                                                        </li>
+                                                    </t>
+                                                </ul>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-foreach="i.diet_meal_ids" t-as="dm">
+                                            <t t-if="dm.day == 'monday'">
+                                                <ul style="list-style-type:none !important;margin:0!important;padding:0!important;font-size:13px!important;">
+                                                    <t t-foreach="dm.lunch_ids" t-as="lunch">
+                                                        <li>
+                                                            <t t-esc="lunch.food_item_id.name"/>
+                                                               <br/>
+                                                            &#160;&#160;&#160;-
+                                                            <t t-esc="lunch.qty"/>
+                                                            <t t-esc="lunch.unit"/>
+                                                        </li>
+                                                    </t>
+                                                </ul>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-foreach="i.diet_meal_ids" t-as="dm">
+                                            <t t-if="dm.day == 'monday'">
+                                                <ul style="list-style-type:none !important;margin:0!important;padding:0!important;font-size:13px!important;">
+                                                    <t t-foreach="dm.evening_snack_ids" t-as="es">
+                                                        <li>
+                                                            <t t-esc="es.food_item_id.name"/>
+                                                               <br/>
+                                                            &#160;&#160;&#160;-
+                                                            <t t-esc="es.qty"/>
+                                                            <t t-esc="es.unit"/>
+                                                        </li>
+                                                    </t>
+                                                </ul>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-foreach="i.diet_meal_ids" t-as="dm">
+                                            <t t-if="dm.day == 'monday'">
+                                                <ul style="list-style-type:none !important;margin:0!important;padding:0!important;font-size:13px!important;">
+                                                    <t t-foreach="dm.dinner_ids" t-as="dinner">
+                                                        <li>
+                                                            <t t-esc="dinner.food_item_id.name"/>
+                                                               <br/>
+                                                            &#160;&#160;&#160;-
+                                                            <t t-esc="dinner.qty"/>
+                                                            <t t-esc="dinner.unit"/>
+                                                        </li>
+                                                    </t>
+                                                </ul>
+                                            </t>
+                                        </t>
+                                    </td>
+                                </tr>
+                                <tr t-if="i.diet_meal_ids">
+                                    <th style="font-size:13px;">Tuesday</th>
+                                    <td>
+                                        <t t-foreach="i.diet_meal_ids" t-as="dm">
+                                            <t t-if="dm.day == 'tuesday'">
+                                                <ul style="list-style-type:none !important;margin:0!important;padding:0!important;font-size:13px!important;">
+                                                    <t t-foreach="dm.breakfast_ids" t-as="breakfast">
+                                                        <li>
+                                                            <t t-esc="breakfast.food_item_id.name"/>
+                                                               <br/>
+                                                            &#160;&#160;&#160;-
+                                                            <t t-esc="breakfast.qty"/>
+                                                            <t t-esc="breakfast.unit"/>
+                                                        </li>
+                                                    </t>
+                                                </ul>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-foreach="i.diet_meal_ids" t-as="dm">
+                                            <t t-if="dm.day == 'tuesday'">
+                                                <ul style="list-style-type:none !important;margin:0!important;padding:0!important;font-size:13px!important;">
+                                                    <t t-foreach="dm.morning_snack_ids" t-as="ms">
+                                                        <li>
+                                                            <t t-esc="ms.food_item_id.name"/>
+                                                               <br/>
+                                                            &#160;&#160;&#160;-
+                                                            <t t-esc="ms.qty"/>
+                                                            <t t-esc="ms.unit"/>
+                                                        </li>
+                                                    </t>
+                                                </ul>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-foreach="i.diet_meal_ids" t-as="dm">
+                                            <t t-if="dm.day == 'tuesday'">
+                                                <ul style="list-style-type:none !important;margin:0!important;padding:0!important;font-size:13px!important;">
+                                                    <t t-foreach="dm.lunch_ids" t-as="lunch">
+                                                        <li>
+                                                            <t t-esc="lunch.food_item_id.name"/>
+                                                               <br/>
+                                                            &#160;&#160;&#160;-
+                                                            <t t-esc="lunch.qty"/>
+                                                            <t t-esc="lunch.unit"/>
+                                                        </li>
+                                                    </t>
+                                                </ul>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-foreach="i.diet_meal_ids" t-as="dm">
+                                            <t t-if="dm.day == 'tuesday'">
+                                                <ul style="list-style-type:none !important;margin:0!important;padding:0!important;font-size:13px!important;">
+                                                    <t t-foreach="dm.evening_snack_ids" t-as="es">
+                                                        <li>
+                                                            <t t-esc="es.food_item_id.name"/>
+                                                               <br/>
+                                                            &#160;&#160;&#160;-
+                                                            <t t-esc="es.qty"/>
+                                                            <t t-esc="es.unit"/>
+                                                        </li>
+                                                    </t>
+                                                </ul>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-foreach="i.diet_meal_ids" t-as="dm">
+                                            <t t-if="dm.day == 'tuesday'">
+                                                <ul style="list-style-type:none !important;margin:0!important;padding:0!important;font-size:13px!important;">
+                                                    <t t-foreach="dm.dinner_ids" t-as="dinner">
+                                                        <li>
+                                                            <t t-esc="dinner.food_item_id.name"/>
+                                                               <br/>
+                                                            &#160;&#160;&#160;-
+                                                            <t t-esc="dinner.qty"/>
+                                                            <t t-esc="dinner.unit"/>
+                                                        </li>
+                                                    </t>
+                                                </ul>
+                                            </t>
+                                        </t>
+                                    </td>
+                                </tr>
+                                <tr t-if="i.diet_meal_ids">
+                                    <th style="font-size:13px;">Wednesday</th>
+                                    <td>
+                                        <t t-foreach="i.diet_meal_ids" t-as="dm">
+                                            <t t-if="dm.day == 'wednesday'">
+                                                <ul style="list-style-type:none !important;margin:0!important;padding:0!important;font-size:13px!important;">
+                                                    <t t-foreach="dm.breakfast_ids" t-as="breakfast">
+                                                        <li>
+                                                            <t t-esc="breakfast.food_item_id.name"/>
+                                                               <br/>
+                                                            &#160;&#160;&#160;-
+                                                            <t t-esc="breakfast.qty"/>
+                                                            <t t-esc="breakfast.unit"/>
+                                                        </li>
+                                                    </t>
+                                                </ul>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-foreach="i.diet_meal_ids" t-as="dm">
+                                            <t t-if="dm.day == 'wednesday'">
+                                                <ul style="list-style-type:none !important;margin:0!important;padding:0!important;font-size:13px!important;">
+                                                    <t t-foreach="dm.morning_snack_ids" t-as="ms">
+                                                        <li>
+                                                            <t t-esc="ms.food_item_id.name"/>
+                                                               <br/>
+                                                            &#160;&#160;&#160;-
+                                                            <t t-esc="ms.qty"/>
+                                                            <t t-esc="ms.unit"/>
+                                                        </li>
+                                                    </t>
+                                                </ul>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-foreach="i.diet_meal_ids" t-as="dm">
+                                            <t t-if="dm.day == 'wednesday'">
+                                                <ul style="list-style-type:none !important;margin:0!important;padding:0!important;font-size:13px!important;">
+                                                    <t t-foreach="dm.lunch_ids" t-as="lunch">
+                                                        <li>
+                                                            <t t-esc="lunch.food_item_id.name"/>
+                                                               <br/>
+                                                            &#160;&#160;&#160;-
+                                                            <t t-esc="lunch.qty"/>
+                                                            <t t-esc="lunch.unit"/>
+                                                        </li>
+                                                    </t>
+                                                </ul>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-foreach="i.diet_meal_ids" t-as="dm">
+                                            <t t-if="dm.day == 'wednesday'">
+                                                <ul style="list-style-type:none !important;margin:0!important;padding:0!important;font-size:13px!important;">
+                                                    <t t-foreach="dm.evening_snack_ids" t-as="es">
+                                                        <li>
+                                                            <t t-esc="es.food_item_id.name"/>
+                                                               <br/>
+                                                            &#160;&#160;&#160;-
+                                                            <t t-esc="es.qty"/>
+                                                            <t t-esc="es.unit"/>
+                                                        </li>
+                                                    </t>
+                                                </ul>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-foreach="i.diet_meal_ids" t-as="dm">
+                                            <t t-if="dm.day == 'wednesday'">
+                                                <ul style="list-style-type:none !important;margin:0!important;padding:0!important;font-size:13px!important;">
+                                                    <t t-foreach="dm.dinner_ids" t-as="dinner">
+                                                        <li>
+                                                            <t t-esc="dinner.food_item_id.name"/>
+                                                               <br/>
+                                                            &#160;&#160;&#160;-
+                                                            <t t-esc="dinner.qty"/>
+                                                            <t t-esc="dinner.unit"/>
+                                                        </li>
+                                                    </t>
+                                                </ul>
+                                            </t>
+                                        </t>
+                                    </td>
+                                </tr>
+                                <tr t-if="i.diet_meal_ids">
+                                    <th style="font-size:13px;">Thursday</th>
+                                    <td>
+                                        <t t-foreach="i.diet_meal_ids" t-as="dm">
+                                            <t t-if="dm.day == 'thursday'">
+                                                <ul style="list-style-type:none !important;margin:0!important;padding:0!important;font-size:13px!important;">
+                                                    <t t-foreach="dm.breakfast_ids" t-as="breakfast">
+                                                        <li>
+                                                            <t t-esc="breakfast.food_item_id.name"/>
+                                                               <br/>
+                                                            &#160;&#160;&#160;-
+                                                            <t t-esc="breakfast.qty"/>
+                                                            <t t-esc="breakfast.unit"/>
+                                                        </li>
+                                                    </t>
+                                                </ul>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-foreach="i.diet_meal_ids" t-as="dm">
+                                            <t t-if="dm.day == 'thursday'">
+                                                <ul style="list-style-type:none !important;margin:0!important;padding:0!important;font-size:13px!important;">
+                                                    <t t-foreach="dm.morning_snack_ids" t-as="ms">
+                                                        <li>
+                                                            <t t-esc="ms.food_item_id.name"/>
+                                                               <br/>
+                                                            &#160;&#160;&#160;-
+                                                            <t t-esc="ms.qty"/>
+                                                            <t t-esc="ms.unit"/>
+                                                        </li>
+                                                    </t>
+                                                </ul>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-foreach="i.diet_meal_ids" t-as="dm">
+                                            <t t-if="dm.day == 'thursday'">
+                                                <ul style="list-style-type:none !important;margin:0!important;padding:0!important;font-size:13px!important;">
+                                                    <t t-foreach="dm.lunch_ids" t-as="lunch">
+                                                        <li>
+                                                            <t t-esc="lunch.food_item_id.name"/>
+                                                               <br/>
+                                                            &#160;&#160;&#160;-
+                                                            <t t-esc="lunch.qty"/>
+                                                            <t t-esc="lunch.unit"/>
+                                                        </li>
+                                                    </t>
+                                                </ul>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-foreach="i.diet_meal_ids" t-as="dm">
+                                            <t t-if="dm.day == 'thursday'">
+                                                <ul style="list-style-type:none !important;margin:0!important;padding:0!important;font-size:13px!important;">
+                                                    <t t-foreach="dm.evening_snack_ids" t-as="es">
+                                                        <li>
+                                                            <t t-esc="es.food_item_id.name"/>
+                                                               <br/>
+                                                            &#160;&#160;&#160;-
+                                                            <t t-esc="es.qty"/>
+                                                            <t t-esc="es.unit"/>
+                                                        </li>
+                                                    </t>
+                                                </ul>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-foreach="i.diet_meal_ids" t-as="dm">
+                                            <t t-if="dm.day == 'thursday'">
+                                                <ul style="list-style-type:none !important;margin:0!important;padding:0!important;font-size:13px!important;">
+                                                    <t t-foreach="dm.dinner_ids" t-as="dinner">
+                                                        <li>
+                                                            <t t-esc="dinner.food_item_id.name"/>
+                                                               <br/>
+                                                            &#160;&#160;&#160;-
+                                                            <t t-esc="dinner.qty"/>
+                                                            <t t-esc="dinner.unit"/>
+                                                        </li>
+                                                    </t>
+                                                </ul>
+                                            </t>
+                                        </t>
+                                    </td>
+                                </tr>
+                                <tr t-if="i.diet_meal_ids">
+                                    <th style="font-size:13px;">Friday</th>
+                                    <td>
+                                        <t t-foreach="i.diet_meal_ids" t-as="dm">
+                                            <t t-if="dm.day == 'friday'">
+                                                <ul style="list-style-type:none !important;margin:0!important;padding:0!important;font-size:13px!important;">
+                                                    <t t-foreach="dm.breakfast_ids" t-as="breakfast">
+                                                        <li>
+                                                            <t t-esc="breakfast.food_item_id.name"/>
+                                                               <br/>
+                                                            &#160;&#160;&#160;-
+                                                            <t t-esc="breakfast.qty"/>
+                                                            <t t-esc="breakfast.unit"/>
+                                                        </li>
+                                                    </t>
+                                                </ul>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-foreach="i.diet_meal_ids" t-as="dm">
+                                            <t t-if="dm.day == 'friday'">
+                                                <ul style="list-style-type:none !important;margin:0!important;padding:0!important;font-size:13px!important;">
+                                                    <t t-foreach="dm.morning_snack_ids" t-as="ms">
+                                                        <li>
+                                                            <t t-esc="ms.food_item_id.name"/>
+                                                               <br/>
+                                                            &#160;&#160;&#160;-
+                                                            <t t-esc="ms.qty"/>
+                                                            <t t-esc="ms.unit"/>
+                                                        </li>
+                                                    </t>
+                                                </ul>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-foreach="i.diet_meal_ids" t-as="dm">
+                                            <t t-if="dm.day == 'friday'">
+                                                <ul style="list-style-type:none !important;margin:0!important;padding:0!important;font-size:13px!important;">
+                                                    <t t-foreach="dm.lunch_ids" t-as="lunch">
+                                                        <li>
+                                                            <t t-esc="lunch.food_item_id.name"/>
+                                                               <br/>
+                                                            &#160;&#160;&#160;-
+                                                            <t t-esc="lunch.qty"/>
+                                                            <t t-esc="lunch.unit"/>
+                                                        </li>
+                                                    </t>
+                                                </ul>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-foreach="i.diet_meal_ids" t-as="dm">
+                                            <t t-if="dm.day == 'friday'">
+                                                <ul style="list-style-type:none !important;margin:0!important;padding:0!important;font-size:13px!important;">
+                                                    <t t-foreach="dm.evening_snack_ids" t-as="es">
+                                                        <li>
+                                                            <t t-esc="es.food_item_id.name"/>
+                                                               <br/>
+                                                            &#160;&#160;&#160;-
+                                                            <t t-esc="es.qty"/>
+                                                            <t t-esc="es.unit"/>
+                                                        </li>
+                                                    </t>
+                                                </ul>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-foreach="i.diet_meal_ids" t-as="dm">
+                                            <t t-if="dm.day == 'friday'">
+                                                <ul style="list-style-type:none !important;margin:0!important;padding:0!important;font-size:13px!important;">
+                                                    <t t-foreach="dm.dinner_ids" t-as="dinner">
+                                                        <li>
+                                                            <t t-esc="dinner.food_item_id.name"/>
+                                                               <br/>
+                                                            &#160;&#160;&#160;-
+                                                            <t t-esc="dinner.qty"/>
+                                                            <t t-esc="dinner.unit"/>
+                                                        </li>
+                                                    </t>
+                                                </ul>
+                                            </t>
+                                        </t>
+                                    </td>
+                                </tr>
+                                <tr t-if="i.diet_meal_ids">
+                                    <th style="font-size:13px;">Saturday</th>
+                                    <td>
+                                        <t t-foreach="i.diet_meal_ids" t-as="dm">
+                                            <t t-if="dm.day == 'saturday'">
+                                                <ul style="list-style-type:none !important;margin:0!important;padding:0!important;font-size:13px!important;">
+                                                    <t t-foreach="dm.breakfast_ids" t-as="breakfast">
+                                                        <li>
+                                                            <t t-esc="breakfast.food_item_id.name"/>
+                                                               <br/>
+                                                            &#160;&#160;&#160;-
+                                                            <t t-esc="breakfast.qty"/>
+                                                            <t t-esc="breakfast.unit"/>
+                                                        </li>
+                                                    </t>
+                                                </ul>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-foreach="i.diet_meal_ids" t-as="dm">
+                                            <t t-if="dm.day == 'saturday'">
+                                                <ul style="list-style-type:none !important;margin:0!important;padding:0!important;font-size:13px!important;">
+                                                    <t t-foreach="dm.morning_snack_ids" t-as="ms">
+                                                        <li>
+                                                            <t t-esc="ms.food_item_id.name"/>
+                                                               <br/>
+                                                            &#160;&#160;&#160;-
+                                                            <t t-esc="ms.qty"/>
+                                                            <t t-esc="ms.unit"/>
+                                                        </li>
+                                                    </t>
+                                                </ul>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-foreach="i.diet_meal_ids" t-as="dm">
+                                            <t t-if="dm.day == 'saturday'">
+                                                <ul style="list-style-type:none !important;margin:0!important;padding:0!important;font-size:13px!important;">
+                                                    <t t-foreach="dm.lunch_ids" t-as="lunch">
+                                                        <li>
+                                                            <t t-esc="lunch.food_item_id.name"/>
+                                                               <br/>
+                                                            &#160;&#160;&#160;-
+                                                            <t t-esc="lunch.qty"/>
+                                                            <t t-esc="lunch.unit"/>
+                                                        </li>
+                                                    </t>
+                                                </ul>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-foreach="i.diet_meal_ids" t-as="dm">
+                                            <t t-if="dm.day == 'saturday'">
+                                                <ul style="list-style-type:none !important;margin:0!important;padding:0!important;font-size:13px!important;">
+                                                    <t t-foreach="dm.evening_snack_ids" t-as="es">
+                                                        <li>
+                                                            <t t-esc="es.food_item_id.name"/>
+                                                               <br/>
+                                                            &#160;&#160;&#160;-
+                                                            <t t-esc="es.qty"/>
+                                                            <t t-esc="es.unit"/>
+                                                        </li>
+                                                    </t>
+                                                </ul>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-foreach="i.diet_meal_ids" t-as="dm">
+                                            <t t-if="dm.day == 'saturday'">
+                                                <ul style="list-style-type:none !important;margin:0!important;padding:0!important;font-size:13px!important;">
+                                                    <t t-foreach="dm.dinner_ids" t-as="dinner">
+                                                        <li>
+                                                            <t t-esc="dinner.food_item_id.name"/>
+                                                               <br/>
+                                                            &#160;&#160;&#160;-
+                                                            <t t-esc="dinner.qty"/>
+                                                            <t t-esc="dinner.unit"/>
+                                                        </li>
+                                                    </t>
+                                                </ul>
+                                            </t>
+                                        </t>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+    <record id="gym_diet_reports_id" model="ir.actions.report">
+        <field name="name">Diet Reports</field>
+        <field name="model">diet.plan</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">tk_gym_management.gym_diet_reports</field>
+        <field name="report_file">tk_gym_management.gym_diet_reports</field>
+        <field name="print_report_name">'Diet Reports '</field>
+        <field name="binding_model_id" ref="model_diet_plan"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="workout_days_form_view" model="ir.ui.view">
+        <field name="name">workout.days.form.view</field>
+        <field name="model">workout.days</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="workout_day"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="workout_days_tree_view" model="ir.ui.view">
+        <field name="name">workout.days.tree.view</field>
+        <field name="model">workout.days</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="workout_day"/>
+            </tree>
+        </field>
+    </record>
+    <record id="workout_days_action" model="ir.actions.act_window">
+        <field name="name">Workout Days</field>
+        <field name="res_model">workout.days</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

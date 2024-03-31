@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="membership_duration_form_view" model="ir.ui.view">
+        <field name="name">gym.membership.duration.form.view</field>
+        <field name="model">membership.duration</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Membership Duration"/>
+                        <h1>
+                            <div class="d-flex">
+                                <field class="o_text_overflow" name="name"
+                                       placeholder="e.g. 1 Month, 6 Month, or 1 Year"
+                                       modifiers="{&quot;required&quot;: true}"/>
+                            </div>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <label for="duration" class="mt-1" string="Duration"/>
+                            <div name="duration">
+                                <field name="duration" class="oe_inline"/>
+                                Months
+                            </div>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="gym_membership_duration_tree_view" model="ir.ui.view">
+        <field name="name">gym.membership.duration.tree.view</field>
+        <field name="model">membership.duration</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    <record id="gym_membership_duration_action" model="ir.actions.act_window">
+        <field name="name">Membership Duration</field>
+        <field name="res_model">membership.duration</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

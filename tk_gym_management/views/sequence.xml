@@ -1,0 +1,9 @@
+<odoo>
+    <record id="seq_memberships" model="ir.sequence">
+        <field name="name">memberships</field>
+        <field name="code">rest.seq.member</field>
+        <field name="padding">5</field>
+         <field name="prefix">GM/</field>
+         <field name="company_id"  eval="False"/>
+    </record>
+</odoo>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="workout_exercise_form_view" model="ir.ui.view">
+        <field name="name">workout.exercise.form.view</field>
+        <field name="model">workout.exercise</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="exercise_id"/>
+                            <field name="exercise_for_id" widget="many2many_tags"/>
+                            <field name="equipment_ids" widget="many2many_tags"/>
+                            <field name="exercise_sets"/>
+                            <field name="sets_repeat"/>
+                            <label for="weight" class="mt-1" string="Weight"/>
+                            <div name="weight">
+                                <field name="weight" class="oe_inline"/>
+                                kg
+                            </div>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="workout_exercise_tree_view" model="ir.ui.view">
+        <field name="name">workout.exercise.tree.view</field>
+        <field name="model">workout.exercise</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="exercise_id"/>
+                <field name="exercise_for_id"/>
+                <field name="equipment_ids"/>
+                <field name="exercise_sets"/>
+                <field name="sets_repeat"/>
+                <field name="weight"/>
+            </tree>
+        </field>
+    </record>
+    <record id="workout_exercise_action" model="ir.actions.act_window">
+        <field name="name">Workout Exercise</field>
+        <field name="res_model">workout.exercise</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

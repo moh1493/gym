@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!--    Gym Management-->
+    <menuitem id="main_menu_gym"
+              name="Gym"
+              sequence="5"
+              groups="tk_gym_management.gym_user,tk_gym_management.gym_officer,tk_gym_management.gym_manager"
+              web_icon="tk_gym_management,static/description/icon.png"/>
+    <!-- Dashboard-->
+    <menuitem id="menu_transport_shipment_dashboard"
+              name="Statistics"
+              sequence="0"
+              groups="tk_gym_management.gym_manager,tk_gym_management.gym_officer"
+              action="action_gym_dashboard"
+              parent="main_menu_gym" />
+    <!--    Gym Member Menu  -->
+    <menuitem id="menu_gym_member"
+              name="Members"
+              sequence="1"
+              parent="main_menu_gym"
+              groups="tk_gym_management.gym_user,tk_gym_management.gym_officer,tk_gym_management.gym_manager"
+              action="gym_member_action"/>
+    <!--    Gym Memberships  Menu-->
+    <menuitem id="sub_menu_gym_membership"
+              name="Memberships"
+              sequence="2"
+              groups="tk_gym_management.gym_officer,tk_gym_management.gym_manager"
+              parent="main_menu_gym"/>
+    <!--    Gym Membership Type SubMenu-->
+    <menuitem id="sub_menu_gym_membership_type"
+              name="Memberships Types"
+              sequence="2"
+              groups="tk_gym_management.gym_officer,tk_gym_management.gym_manager"
+              parent="sub_menu_gym_membership"
+              action="gym_membership_action"/>
+    <!--    Gym Memberships Details SubMenu -->
+    <menuitem id="sub_menu_gym_memberships"
+              name="Memberships Details"
+              sequence="1"
+              parent="sub_menu_gym_membership"
+              groups="tk_gym_management.gym_officer,tk_gym_management.gym_manager"
+              action="gym_memberships_action"/>
+    <!--    Gym Attendance-->
+    <menuitem id="sub_menu_gym_attendance"
+              name="Attendances"
+              sequence="3"
+              groups="tk_gym_management.gym_officer,tk_gym_management.gym_manager"
+              parent="main_menu_gym"/>
+    <!--    Gym Employee Attendance SubMenu-->
+    <menuitem id="sub_menu_gym_employee_attendance"
+              name="Employees"
+              sequence="1"
+              parent="sub_menu_gym_attendance"
+              groups="tk_gym_management.gym_officer,tk_gym_management.gym_manager"
+              action="employee_attendance_action"/>
+    <!--    Gym Members Attendance SubMenu-->
+    <menuitem id="sub_menu_gym_member_attendance"
+              name="Members"
+              sequence="2"
+              parent="sub_menu_gym_attendance"
+              groups="tk_gym_management.gym_officer,tk_gym_management.gym_manager"
+              action="member_attendance_action"/>
+    <!--    Gym Workout Main Menu-->
+    <menuitem id="menu_gym_workout"
+              name="Workouts"
+              sequence="4"
+              groups="tk_gym_management.gym_user,tk_gym_management.gym_officer,tk_gym_management.gym_manager"
+              parent="main_menu_gym"/>
+    <!--    Gym Workout SubMenu-->
+    <menuitem id="menu_gym_workout_"
+              name="Gym Workouts"
+              sequence="1"
+              parent="menu_gym_workout"
+              groups="tk_gym_management.gym_user,tk_gym_management.gym_officer,tk_gym_management.gym_manager"
+              action="gym_workout_action"/>
+    <!--    Gym Exercise SubMenu  -->
+    <menuitem id="menu_gym_member_exercise"
+              name="Exercises"
+              sequence="2"
+              parent="menu_gym_workout"
+              groups="tk_gym_management.gym_user,tk_gym_management.gym_officer,tk_gym_management.gym_manager"
+              action="gym_exercise_action"/>
+    <!--   Gym Classes Menu -->
+    <menuitem id="sub_menu_gym_class_session"
+              name="Yoga Classes"
+              sequence="5"
+              parent="main_menu_gym"
+              groups="tk_gym_management.gym_user,tk_gym_management.gym_officer,tk_gym_management.gym_manager"
+              action="gym_class_action"/>
+    <!--  Fitness Reports Menu-->
+    <menuitem id="menu_gym_fitness_report"
+              name="Fitness Reports"
+              sequence="6"
+              parent="main_menu_gym"
+              groups="tk_gym_management.gym_user,tk_gym_management.gym_officer,tk_gym_management.gym_manager"
+              action="gym_fitness_report_action"/>
+    <!--    Gym Configuration-->
+    <menuitem id="menu_gym_configuration"
+              name="Configurations"
+              sequence="7"
+              groups="tk_gym_management.gym_manager"
+              parent="main_menu_gym"/>
+    <!-- Department Specialization-->
+    <menuitem id="sub_menu_gym_departments"
+              name="Departments"
+              sequence="0"
+              groups="tk_gym_management.gym_manager"
+              parent="menu_gym_configuration"
+              action="hr.hr_department_kanban_action"/>
+    <!--    Gym Equipments Menu  -->
+    <menuitem id="menu_gym_workout_equipment"
+              name="Equipments"
+              sequence="1"
+              groups="tk_gym_management.gym_manager"
+              action="gym_equipment_action"
+              parent="menu_gym_configuration"/>
+    <!--  Class Configuration-->
+    <menuitem id="menu_gym_configuration_class"
+              name="Classes"
+              sequence="2"
+              groups="tk_gym_management.gym_manager"
+              parent="menu_gym_configuration"/>
+    <!-- Gym Class tags-->
+    <menuitem id="sub_menu_gym_tags"
+              name="Tags"
+              sequence="1"
+              groups="tk_gym_management.gym_manager"
+              parent="menu_gym_configuration_class"
+              action="gym_tag_action"/>
+     <record id="action_resource_calendar_form_3" model="ir.actions.act_window">
+        <field name="name">Working Times</field>
+        <field name="res_model">resource.calendar</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" eval="False"/>
+         <field name="domain">[('is_member','=',True)]</field>
+         <field name="context">{'default_is_member':True}</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Define working hours and time table that could be scheduled to your project members
+          </p>
+        </field>
+    </record>
+     <menuitem id="sub_menu_gym_classes"
+              name="Classes"
+              sequence="1"
+              groups="tk_gym_management.gym_manager"
+              parent="menu_gym_configuration_class"
+              action="action_resource_calendar_form_3"/>
+    <!--  Trainer Configuration-->
+    <menuitem id="menu_gym_configuration_trainer"
+              name="Trainer Details"
+              sequence="3"
+              groups="tk_gym_management.gym_manager"
+              parent="menu_gym_configuration"/>
+    <!--        Gym Trainer-->
+    <menuitem id="sub_menu_gym_trainer"
+              name="Trainers"
+              sequence="0"
+              groups="tk_gym_management.gym_manager"
+              parent="menu_gym_configuration_trainer"
+              action="gym_employee_action"/>
+    <!--   Trainer Specialization-->
+    <menuitem id="sub_menu_gym_trainer_specialist"
+              name="Specialist Tags"
+              sequence="1"
+              groups="tk_gym_management.gym_manager"
+              parent="menu_gym_configuration_trainer"
+              action="hr.open_view_categ_form"/>
+    <!--   Trainer Job Position-->
+    <menuitem id="sub_menu_gym_trainer_job_position"
+              name="Job Positions"
+              sequence="2"
+              groups="tk_gym_management.gym_manager"
+              parent="menu_gym_configuration_trainer"
+              action="hr.action_hr_job"/>
+    <!--  Membership Configuration-->
+    <menuitem id="menu_gym_membership_configuration"
+              name="Membership Details"
+              sequence="4"
+              groups="tk_gym_management.gym_manager"
+              parent="menu_gym_configuration"/>
+    <!--    Gym Memberships Category-->
+    <menuitem id="sub_menu_gym_membership_category"
+              name="Membership Categories"
+              sequence="1"
+              groups="tk_gym_management.gym_manager"
+              parent="menu_gym_membership_configuration"
+              action="gym_membership_category_action"/>
+    <!--    Gym Membership Duration-->
+    <menuitem id="sub_menu_gym_membership_duration"
+              name="Membership Durations"
+              sequence="1"
+              groups="tk_gym_management.gym_manager"
+              parent="menu_gym_membership_configuration"
+              action="gym_membership_duration_action"/>
+    <!--  Workout Configuration-->
+    <menuitem id="menu_gym_workout_configuration"
+              name="Workout Details"
+              sequence="5"
+              groups="tk_gym_management.gym_manager"
+              parent="menu_gym_configuration"/>
+    <!--    Gym Exercise For-->
+    <menuitem id="sub_menu_gym_exercise_for"
+              name="Exercise For"
+              sequence="2"
+              groups="tk_gym_management.gym_manager"
+              parent="menu_gym_workout_configuration"
+              action="gym_exercise_for_action"/>
+    <!--    Gym Exercise Day-->
+    <menuitem id="sub_menu_gym_exercise_day"
+              name="Days"
+              sequence="1"
+              groups="tk_gym_management.gym_manager"
+              parent="menu_gym_workout_configuration"
+              action="workout_days_action"/>
+    <!--  Diet Nutrients Management-->
+    <menuitem id="main_menu_diet_nutrients"
+              name="Diet &amp; Nutrition"
+              groups="tk_gym_management.gym_officer,tk_gym_management.gym_manager"
+              web_icon="tk_gym_management,static/description/diet.png"
+              sequence="6"/>
+        <!--    Member Menu  -->
+    <menuitem id="menu_diet_gym_member"
+              name="Members"
+              sequence="1"
+              parent="main_menu_diet_nutrients"
+              groups="tk_gym_management.gym_user,tk_gym_management.gym_officer,tk_gym_management.gym_manager"
+              action="gym_member_action"/>
+    <!--      Menu-->
+    <menuitem id="menu_diet_plan_nutrient_type"
+              name="Diet Plans"
+              sequence="2"
+              groups="tk_gym_management.gym_officer,tk_gym_management.gym_manager"
+              parent="main_menu_diet_nutrients"
+              action="diet_plan_action"/>
+    <menuitem id="menu_gym_nutrient_type"
+              name="Nutrients"
+              sequence="2"
+              groups="tk_gym_management.gym_officer,tk_gym_management.gym_manager"
+              parent="main_menu_diet_nutrients"
+              action="nutrient_type_action"/>
+    <menuitem id="menu_food_item"
+              name="Foods"
+              sequence="4"
+              groups="tk_gym_management.gym_officer,tk_gym_management.gym_manager"
+              parent="main_menu_diet_nutrients"
+              action="gym_diet_food_action"/>
+        <!--  Fitness Reports Menu-->
+    <menuitem id="menu_diet_gym_fitness_report"
+              name="Fitness Reports"
+              sequence="5"
+              parent="main_menu_diet_nutrients"
+              groups="tk_gym_management.gym_user,tk_gym_management.gym_officer,tk_gym_management.gym_manager"
+              action="gym_fitness_report_action"/>
+</odoo>

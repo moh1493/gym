@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="employee_attendance_form_view" model="ir.ui.view">
+        <field name="name">employee.attendance.form.view</field>
+        <field name="model">employee.attendance</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="check_out_employee" type='object' string="Check Out" attrs="{'invisible':[('check_out','!=',False)]}"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="employee_id" options="{'no_create':True}"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="check_in"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="check_out"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="employee_attendance_tree_view" model="ir.ui.view">
+        <field name="name">employee.attendance.tree.view</field>
+        <field name="model">employee.attendance</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="employee_id"/>
+                <field name="check_in"/>
+                <field name="check_out"/>
+            </tree>
+        </field>
+    </record>
+    <record id="employee_attendance_action" model="ir.actions.act_window">
+        <field name="name">Employees Attendance</field>
+        <field name="res_model">employee.attendance</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

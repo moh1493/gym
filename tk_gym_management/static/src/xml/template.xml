@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="gymDashboard">
+        <section class="section gym_dashboard">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 mb-4 mt32 mb16">
+                        <div class="row">
+                            <div class="col-12 col-sm-12 col-md-5">
+                                <h2 class="section-header">Statistics</h2>
+                            </div>
+                        </div>
+                        <hr/>
+                    </div>
+                </div>
+            </div>
+            <div class="container gym_dashboard">
+                <div class="row">
+                    <div class="col-md-4 col-lg-4 col-sm-6 member-stats">
+                        <div class="card card-xl-stretch mb-xl-8">
+                            <!--begin::Body-->
+                            <div class="card-body p-0">
+                                <div class="d-flex flex-stack card-p flex-grow-1">
+                                    <span class="symbol symbol-50px me-2">
+                                        <span class="symbol-label bg-light-info">
+                                            <span class="svg-icon svg-icon-muted svg-icon-info svg-icon-2hx"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                            <path opacity="0.3"
+                                                  d="M22 12C22 17.5 17.5 22 12 22C6.5 22 2 17.5 2 12C2 6.5 6.5 2 12 2C17.5 2 22 6.5 22 12ZM12 7C10.3 7 9 8.3 9 10C9 11.7 10.3 13 12 13C13.7 13 15 11.7 15 10C15 8.3 13.7 7 12 7Z"
+                                                  fill="black"/>
+                                            <path d="M12 22C14.6 22 17 21 18.7 19.4C17.9 16.9 15.2 15 12 15C8.8 15 6.09999 16.9 5.29999 19.4C6.99999 21 9.4 22 12 22Z"
+                                                  fill="black"/>
+                                            </svg></span>
+                                        </span>
+                                    </span>
+                                    <div class="d-flex flex-column text-end">
+                                        <span class="text-dark fw-bolder fs-2" id="gym_members">0</span>
+                                        <span class="text-muted fw-bold mt-1">Members</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!--end::Body-->
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-4 col-sm-6 membership-stats">
+                        <div class="card card-xl-stretch mb-xl-8">
+                            <!--begin::Body-->
+                            <div class="card-body p-0">
+                                <div class="d-flex flex-stack card-p flex-grow-1">
+                                    <span class="symbol symbol-50px me-2">
+                                        <span class="symbol-label bg-light-warning">
+                                            <span class="svg-icon svg-icon-warning svg-icon-muted svg-icon-2hx"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                <path opacity="0.3"
+                                                      d="M18 21.6C16.3 21.6 15 20.3 15 18.6V2.50001C15 2.20001 14.6 1.99996 14.3 2.19996L13 3.59999L11.7 2.3C11.3 1.9 10.7 1.9 10.3 2.3L9 3.59999L7.70001 2.3C7.30001 1.9 6.69999 1.9 6.29999 2.3L5 3.59999L3.70001 2.3C3.50001 2.1 3 2.20001 3 3.50001V18.6C3 20.3 4.3 21.6 6 21.6H18Z"
+                                                      fill="black"/>
+                                                <path d="M12 12.6H11C10.4 12.6 10 12.2 10 11.6C10 11 10.4 10.6 11 10.6H12C12.6 10.6 13 11 13 11.6C13 12.2 12.6 12.6 12 12.6ZM9 11.6C9 11 8.6 10.6 8 10.6H6C5.4 10.6 5 11 5 11.6C5 12.2 5.4 12.6 6 12.6H8C8.6 12.6 9 12.2 9 11.6ZM9 7.59998C9 6.99998 8.6 6.59998 8 6.59998H6C5.4 6.59998 5 6.99998 5 7.59998C5 8.19998 5.4 8.59998 6 8.59998H8C8.6 8.59998 9 8.19998 9 7.59998ZM13 7.59998C13 6.99998 12.6 6.59998 12 6.59998H11C10.4 6.59998 10 6.99998 10 7.59998C10 8.19998 10.4 8.59998 11 8.59998H12C12.6 8.59998 13 8.19998 13 7.59998ZM13 15.6C13 15 12.6 14.6 12 14.6H10C9.4 14.6 9 15 9 15.6C9 16.2 9.4 16.6 10 16.6H12C12.6 16.6 13 16.2 13 15.6Z"
+                                                      fill="black"/>
+                                                <path d="M15 18.6C15 20.3 16.3 21.6 18 21.6C19.7 21.6 21 20.3 21 18.6V12.5C21 12.2 20.6 12 20.3 12.2L19 13.6L17.7 12.3C17.3 11.9 16.7 11.9 16.3 12.3L15 13.6V18.6Z"
+                                                      fill="black"/>
+                                                </svg>
+                                            </span>
+                                        </span>
+                                    </span>
+                                    <div class="d-flex flex-column text-end">
+                                        <span class="text-dark fw-bolder fs-2" id="gym_memberships">0</span>
+                                        <span class="text-muted fw-bold mt-1">Memberships</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!--end::Body-->
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-4 col-sm-6 equipment-stats">
+                        <div class="card card-xl-stretch mb-xl-8">
+                            <!--begin::Body-->
+                            <div class="card-body p-0">
+                                <div class="d-flex flex-stack card-p flex-grow-1">
+                                    <span class="symbol symbol-50px me-2">
+                                        <span class="symbol-label bg-light-ship">
+                                            <!--begin::Svg Icon -->
+                                            <span class="svg-icon svg-icon-general svg-icon-muted svg-icon-2hx">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                     viewBox="0 0 24 24" fill="none">
+                                                    <path opacity="0.3"
+                                                          d="M7 20.5L2 17.6V11.8L7 8.90002L12 11.8V17.6L7 20.5ZM21 20.8V18.5L19 17.3L17 18.5V20.8L19 22L21 20.8Z"
+                                                          fill="black"></path>
+                                                    <path d="M22 14.1V6L15 2L8 6V14.1L15 18.2L22 14.1Z"
+                                                          fill="black"></path>
+                                                </svg>
+                                            </span>
+                                            <!--end::Svg Icon-->
+                                        </span>
+                                    </span>
+                                    <div class="d-flex flex-column text-end">
+                                        <span class="text-dark fw-bolder fs-2" id="gym_equipments">0</span>
+                                        <span class="text-muted fw-bold mt-1">Equipments</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--end::Body-->
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt32">
+                    <div class="col-md-4 col-lg-4 col-sm-6 workout-stats">
+                        <div class="card card-xl-stretch mb-xl-8">
+                            <!--begin::Body-->
+                            <div class="card-body p-0">
+                                <div class="d-flex flex-stack card-p flex-grow-1">
+                                    <span class="symbol symbol-50px me-2">
+                                        <span class="symbol-label bg-light">
+                                            <!--begin::Svg Icon -->
+                                            <span class="svg-icon svg-icon-muted svg-icon-progress svg-icon-2hx"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                            <path opacity="0.3"
+                                                  d="M22 8H8L12 4H19C19.6 4 20.2 4.39999 20.5 4.89999L22 8ZM3.5 19.1C3.8 19.7 4.4 20 5 20H12L16 16H2L3.5 19.1ZM19.1 20.5C19.7 20.2 20 19.6 20 19V12L16 8V22L19.1 20.5ZM4.9 3.5C4.3 3.8 4 4.4 4 5V12L8 16V2L4.9 3.5Z"
+                                                  fill="black"/>
+                                            <path d="M22 8L20 12L16 8H22ZM8 16L4 12L2 16H8ZM16 16L12 20L16 22V16ZM8 8L12 4L8 2V8Z"
+                                                  fill="black"/>
+                                            </svg></span>
+                                            <!--end::Svg Icon-->
+                                        </span>
+
+                                    </span>
+                                    <div class="d-flex flex-column text-end">
+                                        <span class="text-dark fw-bolder fs-2" id="gym_workouts">0</span>
+                                        <span class="text-muted fw-bold mt-1">Workouts</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!--end::Body-->
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-4 col-sm-6 exercise-stats">
+                        <div class="card card-xl-stretch mb-xl-8">
+                            <!--begin::Body-->
+                            <div class="card-body p-0">
+                                <div class="d-flex flex-stack card-p flex-grow-1">
+                                    <span class="symbol symbol-50px me-2">
+                                        <span class="symbol-label bg-light-success">
+                                            <span class="svg-icon svg-icon-success svg-icon-muted svg-icon-2hx"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+                                            <path opacity="0.3"
+                                                  d="M8.9 21L7.19999 22.6999C6.79999 23.0999 6.2 23.0999 5.8 22.6999L4.1 21H8.9ZM4 16.0999L2.3 17.8C1.9 18.2 1.9 18.7999 2.3 19.1999L4 20.9V16.0999ZM19.3 9.1999L15.8 5.6999C15.4 5.2999 14.8 5.2999 14.4 5.6999L9 11.0999V21L19.3 10.6999C19.7 10.2999 19.7 9.5999 19.3 9.1999Z"
+                                                  fill="black"/>
+                                            <path d="M21 15V20C21 20.6 20.6 21 20 21H11.8L18.8 14H20C20.6 14 21 14.4 21 15ZM10 21V4C10 3.4 9.6 3 9 3H4C3.4 3 3 3.4 3 4V21C3 21.6 3.4 22 4 22H9C9.6 22 10 21.6 10 21ZM7.5 18.5C7.5 19.1 7.1 19.5 6.5 19.5C5.9 19.5 5.5 19.1 5.5 18.5C5.5 17.9 5.9 17.5 6.5 17.5C7.1 17.5 7.5 17.9 7.5 18.5Z"
+                                                  fill="black"/>
+                                            </svg></span>
+                                        </span>
+                                    </span>
+                                    <div class="d-flex flex-column text-end">
+                                        <span class="text-dark fw-bolder fs-2" id="gym_exercises">0</span>
+                                        <span class="text-muted fw-bold mt-1">Exercises</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--end::Body-->
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-4 col-sm-6 yoga-stats">
+                        <div class="card card-xl-stretch mb-xl-8">
+                            <!--begin::Body-->
+                            <div class="card-body p-0">
+                                <div class="d-flex flex-stack card-p flex-grow-1">
+                                    <span class="symbol symbol-50px me-2">
+                                        <span class="symbol-label bg-light-danger">
+                                            <span class="svg-icon svg-icon-danger svg-icon-muted svg-icon-2hx"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                            <path d="M16.0173 9H15.3945C14.2833 9 13.263 9.61425 12.7431 10.5963L12.154 11.7091C12.0645 11.8781 12.1072 12.0868 12.2559 12.2071L12.6402 12.5183C13.2631 13.0225 13.7556 13.6691 14.0764 14.4035L14.2321 14.7601C14.2957 14.9058 14.4396 15 14.5987 15H18.6747C19.7297 15 20.4057 13.8774 19.912 12.945L18.6686 10.5963C18.1487 9.61425 17.1285 9 16.0173 9Z"
+                                                  fill="black"/>
+                                            <rect opacity="0.3" x="14" y="4" width="4" height="4" rx="2" fill="black"/>
+                                            <path d="M4.65486 14.8559C5.40389 13.1224 7.11161 12 9 12C10.8884 12 12.5961 13.1224 13.3451 14.8559L14.793 18.2067C15.3636 19.5271 14.3955 21 12.9571 21H5.04292C3.60453 21 2.63644 19.5271 3.20698 18.2067L4.65486 14.8559Z"
+                                                  fill="black"/>
+                                            <rect opacity="0.3" x="6" y="5" width="6" height="6" rx="3" fill="black"/>
+                                            </svg></span>
+                                        </span>
+                                    </span>
+                                    <div class="d-flex flex-column text-end">
+                                            <span class="text-dark fw-bolder fs-2" id="gym_classes">0</span>
+                                        <span class="text-muted fw-bold mt-1">Yoga Classes</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--end::Body-->
+                        </div>
+                    </div>
+                </div>
+                <div class="mt64 mb16">
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="box box-full mt16 mb16">
+                            <h5 class="mb16">Active Membership Details</h5>
+                            <div id="membership_categories"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="box box-full mt16 mb16">
+                            <h5 class="mb16"> Membership Details</h5>
+                            <div id="membership_person"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                            <div class="box box-full mt16 mb16">
+                                <h5 class="mb16">Day wise Attendance </h5>
+                                <div id="attendance"></div>
+                            </div>
+                        </div>
+                    <div class="col-md-12">
+                            <div class="box box-full mt16 mb16">
+                                <h5 class="mb16">Invoice Details Month wise </h5>
+                                <div id="payment_month"></div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </section>
+    </t>
+</templates>

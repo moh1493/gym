@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="class_attendee_form_view" model="ir.ui.view">
+        <field name="name">class.attendee.form.view</field>
+        <field name="model">class.attendee</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="member_id" options="{'no_create' : True}"/>
+                            <field name="yoga_class_id" options="{'no_create' : True}"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="class_attendee_tree_view" model="ir.ui.view">
+        <field name="name">class.attendee.tree.view</field>
+        <field name="model">class.attendee</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="member_id"/>
+                <field name="yoga_class_id"/>
+            </tree>
+        </field>
+    </record>
+    <record id="class_attendee_action" model="ir.actions.act_window">
+        <field name="name">Class Attendees</field>
+        <field name="res_model">class.attendee</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

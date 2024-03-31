@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="gym_member_fitness_reports">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="i">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <style>
+                                table {
+                                font-family: sans-serif;
+                                border-collapse: collapse;
+                                width: 100%; height:100%;
+                                }
+
+                                td, th ,tr{
+                                border: 1px solid #dddddd;
+                                text-align: left;
+                                padding: 8px;
+                                }
+                            </style>
+                            <br/>
+                            <table>
+                                <tr>
+                                    <th>NAME</th>
+                                    <td colspan="2">
+                                        <span t-field="i.member_id"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Date</td>
+                                    <td>Age</td>
+                                    <td>Gender</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span t-field="i.date"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="i.age"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="i.gender"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <table>
+                                <tr>
+                                    <td colspan="4">
+                                        <center>Measurement</center>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Height</th>
+                                    <th>Weight</th>
+                                    <th>Neck</th>
+                                    <th>Waist</th>
+                                    <t t-if="i.gender == 'f' ">
+                                        <th>Hips</th>
+                                    </t>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span t-field="i.height"/>
+                                        cm
+                                    </td>
+                                    <td>
+                                        <span t-field="i.weight"/>
+                                        kg
+                                    </td>
+                                    <td>
+                                        <span t-field="i.neck"/>
+                                        cm
+                                    </td>
+                                    <td>
+                                        <span t-field="i.waist"/>
+                                        cm
+                                    </td>
+                                    <t t-if="i.gender == 'f' ">
+                                        <td>
+                                            <span t-field="i.hips"/>
+                                            cm
+                                        </td>
+                                    </t>
+                                </tr>
+                            </table>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <table>
+                                <tr>
+                                    <td colspan="4">
+                                        <center>Fitness Reports</center>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>BMI</th>
+                                    <th>BMR</th>
+                                    <th>Body Fat</th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span t-field="i.bmi"/>
+                                        <span t-field="i.bmi_categories"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="i.bmr"/>
+                                        Calories/day
+                                    </td>
+                                    <td>
+                                        <span t-field="i.bfp"/>
+                                        %
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+    <record id="gym_member_fitness_reports_id" model="ir.actions.report">
+        <field name="name">Fitness Reports</field>
+        <field name="model">fitness.report</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">tk_gym_management.gym_member_fitness_reports</field>
+        <field name="report_file">tk_gym_management.gym_member_fitness_reports</field>
+        <field name="print_report_name">'Print Fitness Reports'</field>
+        <field name="binding_model_id" ref="model_fitness_report"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

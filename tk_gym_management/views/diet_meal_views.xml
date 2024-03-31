@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="diet_meal_form_view" model="ir.ui.view">
+        <field name="name">diet.meal.form.view</field>
+        <field name="model">diet.meal</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="day"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Breakfast">
+                            <field name="breakfast_ids" context="{'default_meal_type': 'breakfast'}">
+                                <tree editable="bottom">
+                                    <field name="meal_type" invisible="1"/>
+                                    <field name="food_item_id"/>
+                                    <field name="meal_time" widget="float_time"/>
+                                    <field name="qty"/>
+                                    <field name="unit"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Morning Snack">
+                            <field name="morning_snack_ids" context="{'default_meal_type': 'midmorningsnacks'}">
+                                <tree editable="bottom">
+                                    <field name="meal_type" invisible="1"/>
+                                    <field name="food_item_id"/>
+                                    <field name="meal_time" widget="float_time"/>
+                                    <field name="qty"/>
+                                    <field name="unit"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Lunch">
+                            <field name="lunch_ids" context="{'default_meal_type': 'lunch'}">
+                                <tree editable="bottom">
+                                    <field name="meal_type" invisible="1"/>
+                                    <field name="food_item_id"/>
+                                    <field name="meal_time" widget="float_time"/>
+                                    <field name="qty"/>
+                                    <field name="unit"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Evening Snack">
+                            <field name="evening_snack_ids" context="{'default_meal_type': 'evening-snacks'}">
+                                <tree editable="bottom">
+                                    <field name="meal_type" invisible="1"/>
+                                    <field name="food_item_id"/>
+                                    <field name="meal_time" widget="float_time"/>
+                                    <field name="qty"/>
+                                    <field name="unit"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Dinner">
+                            <field name="dinner_ids" context="{'default_meal_type': 'dinner'}">
+                                <tree editable="bottom">
+                                    <field name="meal_type" invisible="1"/>
+                                    <field name="food_item_id"/>
+                                    <field name="meal_time" widget="float_time"/>
+                                    <field name="qty"/>
+                                    <field name="unit"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Nutrients">
+                            <field name="diet_nutrient_ids">
+                                <tree editable="bottom">
+                                    <field name="nutrient_id"/>
+                                    <field name="value"/>
+                                    <field name="unit"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="diet_meal_tree_view" model="ir.ui.view">
+        <field name="name">diet.meal.tree.view</field>
+        <field name="model">diet.meal</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="day"/>
+            </tree>
+        </field>
+    </record>
+    <record id="diet_meal_action" model="ir.actions.act_window">
+        <field name="name">Diet Meal</field>
+        <field name="res_model">diet.meal</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

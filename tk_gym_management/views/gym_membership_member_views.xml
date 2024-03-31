@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="gym_memberships_form_view" model="ir.ui.view">
+        <field name="name">gym.memberships.form.view</field>
+        <field name="model">memberships.member</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="is_compute" invisible="1"/>
+                    <field name="invoice_membership_id" invisible="1"/>
+                    <button string="Create Invoice" name="action_invoice" type="object"
+                            attrs="{'invisible':[('invoice_membership_id','!=',False)]}"/>
+                    <field name="stages" widget="statusbar" statusbar_visible="draft,active"/>
+                    <button string="Active" name="draft_to_active" type="object"
+                            attrs="{'invisible': [('stages', 'not in', ['draft'])]}"/>
+                    <button string="Expired" name="active_to_expiry" type="object"
+                            attrs="{'invisible': [('stages', 'not in', ['active'])]}"/>
+                       <button string="Compute Session" name="compute_session" type="object"
+                            attrs="{'invisible': [('is_compute', '=',True)]}"/>
+                </header>
+                <sheet>
+                    <group>
+                        <h2>
+                            <field name="gym_membership_number" nolabel="1"/>
+                        </h2>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="gym_member_id" options="{'no_create':True}"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Membership Types">
+                            <field name="gym_membership_type_id" domain="[('is_membership', '=', True)]"
+                                   options="{'no_create':True}"/>
+                            <field name="duration_id" force_save="1" options="{'no_create':True}"
+                                   attrs="{'invisible':[('gym_membership_type_id','=',False)]}"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="price" attrs="{'readonly':True,'invisible':[('gym_membership_type_id','=',False)]}"/>
+                        </group>
+                        <group string="Membership Details" attrs="{'invisible':[('gym_membership_type_id','=',False)]}">
+                            <field name="invoice_membership_id"
+                                   attrs="{'invisible':[('invoice_membership_id','=',False)]}"/>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                            <field name="number_of_session"/>
+                        </group>
+
+                    </group>
+                    <field name="session_ids" readonly="1">
+                        <tree editable="top">
+                            <field name="name"/>
+                            <field name="attend_id"/>
+                            <field name="date"/>
+                            <field name="class_id"/>
+                            <field name="trainer_id"/>
+                            <field name="state"/>
+
+                        </tree>
+                    </field>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="gym_memberships_tree_view" model="ir.ui.view">
+        <field name="name">gym.memberships.tree.view</field>
+        <field name="model">memberships.member</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="gym_member_id"/>
+                <field name="gym_membership_type_id"/>
+                <field name="price" string="Charges" sum="Total"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="stages" string="Status"/>
+            </tree>
+        </field>
+    </record>
+    <record id="gym_memberships_history_pivot" model="ir.ui.view">
+        <field name="name">gym.memberships.history.pivot</field>
+        <field name="model">memberships.member</field>
+        <field name="arch" type="xml">
+            <pivot string="history">
+                <field name="create_date" interval="month" type="col"/>
+                <field name="duration_id" type="col"/>
+                <field name="gym_membership_type_id" type="measure" string="Memberships" />
+                <field name="price" type="measure"/>
+                <field name="gym_membership_type_id" type="row"/>
+            </pivot>
+        </field>
+    </record>
+    <record id="gym_memberships_action" model="ir.actions.act_window">
+        <field name="name">Memberships Details</field>
+        <field name="res_model">memberships.member</field>
+        <field name="view_mode">tree,form,pivot,activity</field>
+    </record>
+</odoo>

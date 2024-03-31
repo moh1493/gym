@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="gym_membership_category_form_view" model="ir.ui.view">
+        <field name="name">gym.membership.category.form.view</field>
+        <field name="model">product.category</field>
+        <field name="priority">1000</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" name="142" icon="fa-th-list" type="action"
+                                context="{'search_default_categ_id': active_id, 'default_categ_id': active_id, 'group_expand': True}">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value">
+                                    <field name="product_count" modifiers="{&quot;readonly&quot;: true}"/>
+                                </span>
+                                <span class="o_stat_text">Memberships</span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name" string="Membership Category"/>
+                        <h1>
+                            <field name="name" placeholder="e.g. Single" modifiers="{&quot;required&quot;: true}"/>
+                        </h1>
+                    </div>
+                    <group name="first" col="2">
+                        <field name="parent_id" class="oe_inline" can_create="true" can_write="true" modifiers="{}"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="gym_membership_category_tree_view" model="ir.ui.view">
+        <field name="name">gym.membership.category.tree.view</field>
+        <field name="model">product.category</field>
+        <field name="priority">1000</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" string="Membership Category"/>
+            </tree>
+        </field>
+    </record>
+    <record id="gym_membership_category_action" model="ir.actions.act_window">
+        <field name="name">Membership Category</field>
+        <field name="res_model">product.category</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_ids"
+               eval="[(5, 0, 0),
+                  (0, 0, {'view_mode': 'tree', 'view_id': ref('gym_membership_category_tree_view')}),
+                  (0, 0, {'view_mode': 'form', 'view_id': ref('gym_membership_category_form_view')})]"/>
+    </record>
+</odoo>
