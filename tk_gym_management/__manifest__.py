@@ -36,6 +36,7 @@
         'hr',
         'account',
         'resource'
+        ,'sale'
     ],
     'data': [
         # Security

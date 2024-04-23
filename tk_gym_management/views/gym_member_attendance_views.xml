@@ -1,12 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
+    <record id="member_attendance_form_view_warning" model="ir.ui.view">
+        <field name="name">member.attendance.form.view</field>
+        <field name="model">member.attendance</field>
+        <field name="priority">1000</field>
+        <field name="arch" type="xml">
+            <form>
+
+           <h2>Memeber has number of session without membership <field name="number_of_session_no"/></h2>
+            <footer>
+                <button name="check_out_member" type="object" string="Check Out" class="oe_highlight"/>
+                <button name="action_create_memmbership" type="object" string="Create Memeber Ship" class="oe_highlight"/>
+            </footer>
+             </form>
+        </field>
+    </record>
     <record id="member_attendance_form_view" model="ir.ui.view">
         <field name="name">member.attendance.form.view</field>
         <field name="model">member.attendance</field>
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button name="check_out_member" type='object' string="Check Out"  attrs="{'invisible':[('check_out','!=',False)]}"/>
+                    <button name="check_out_member_warning" type='object' string="Check Out"
+                            attrs="{'invisible':[('check_out','!=',False)]}"/>
                 </header>
                 <sheet>
                     <group>
@@ -21,8 +37,9 @@
                     </group>
                     <group>
                         <field name="check_out"/>
-                            <field name="class_id"/>
-                <field name="trainer_id"/>
+                        <field name="class_ids" invisible="1"/>
+                        <field name="class_id"/>
+                        <field name="trainer_id"/>
                     </group>
                 </sheet>
             </form>

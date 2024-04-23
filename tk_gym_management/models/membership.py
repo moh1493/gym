@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 # Copyright 2020-Today TechKhedut.
 # Part of TechKhedut. See LICENSE file for full copyright and licensing details.
-import datetime
 import calendar
-from odoo import models, fields, api
 from datetime import date
 
 from dateutil.relativedelta import relativedelta
+from odoo.exceptions import ValidationError
+
+from odoo import models, fields, api, _
 
 
 class MembershipDetails(models.Model):
@@ -33,65 +34,134 @@ class MembershipDuration(models.Model):
     name = fields.Char(string="Title", required=True)
     duration = fields.Integer(string="Membership Duration", required=True)
 
+
 class Memeber_session(models.Model):
     _name = "memberships.member.line"
     name = fields.Char(required=True)
     attend_id = fields.Many2one("member.attendance")
-    state = fields.Selection([('draft','Draft'),('attend','Attend'),('expired','Expired')],default='draft')
+    state = fields.Selection([('draft', 'Draft'), ('attend', 'Attend'), ('expired', 'Expired')], default='draft')
     parent_id = fields.Many2one("memberships.member")
     trainer_id = fields.Many2one("hr.employee", readonly=True)
     class_id = fields.Many2one("resource.calendar", readonly=True)
     date = fields.Datetime()
+
+
 class MembershipsDetails(models.Model):
     _name = 'memberships.member'
     _inherit = ["mail.thread", "mail.activity.mixin"]
     _description = 'Memberships  Members Details'
     _rec_name = 'gym_member_id'
-    session_ids = fields.One2many("memberships.member.line","parent_id")
+    session_ids = fields.One2many("memberships.member.line", "parent_id")
     gym_membership_number = fields.Char(string='', copy=False, readonly=True,
                                         default=lambda self: 'New')
-    gym_member_id = fields.Many2one('res.partner', string='Member', domain=[('is_member', '=', True)], required=True)
-    gym_membership_type_id = fields.Many2one('product.template', string='Membership Type', required=True)
-    duration_id = fields.Many2one('membership.duration', readonly=True, store=True, string='Membership Duration')
-    currency_id = fields.Many2one('res.currency', related='company_id.currency_id', string='Currency')
+    gym_member_id = fields.Many2one('res.partner', tracking=True, string='Member', domain=[('is_member', '=', True)],
+                                    required=True)
+    mobile = fields.Char(relateds='gym_member_id.mobile')
+    phone = fields.Char(relateds='gym_member_id.phone')
+    email = fields.Char(relateds='gym_member_id.email')
+    gym_membership_type_id = fields.Many2one('product.template', string='Membership Type', required=True, tracking=True)
+    duration_id = fields.Many2one('membership.duration', readonly=True, store=True, string='Membership Duration',
+                                  tracking=True)
+    currency_id = fields.Many2one('res.currency', related='company_id.currency_id', string='Currency', tracking=True)
     company_id = fields.Many2one('res.company', 'Company', default=lambda self: self.env.company, ondelete='cascade',
                                  readonly=True)
-    price = fields.Monetary(string='Charges')
+    price = fields.Monetary(string='Charges', tracking=True)
     start_date = fields.Date(string='Start Date', default=date.today(), required=True)
     duration = fields.Integer(related='duration_id.duration', string='Membership Duration')
-    end_date = fields.Date(string='End Date', compute='expired_date_count')
+    end_date = fields.Date(string='End Date', compute='expired_date_count', tracking=True)
+    extend_date = fields.Date(tracking=True)
+    extend_check = fields.Boolean()
     invoice_membership_id = fields.Many2one('account.move', string='Invoice')
 
     stages = fields.Selection(
         [('draft', "Draft"), ('active', "In Progress"), ('expired', "Expired"), ('renewal', 'Renew')],
-        string="Stages", default='draft')
-    number_of_session = fields.Integer(related='gym_membership_type_id.number_of_session',store=True)
+        string="Stages", default='draft', tracking=True)
+    number_of_session = fields.Integer(related='gym_membership_type_id.number_of_session', store=True)
     is_compute = fields.Boolean()
-    def compute_session(self):
-        for rec in range(0,self.number_of_session):
-            self.is_compute=True
-            self.env['memberships.member.line'].create({
-                'name':"session"+str(rec+1),
-                'parent_id':self.id,
-                'state':'draft',
+    remaining_of_session = fields.Integer(compute='_compute_remaining_of_session')
+    discount = fields.Float(tracking=True)
+    net_amount = fields.Monetary(compute='_compute_net_amount')
+    payment_state = fields.Selection(related='invoice_membership_id.payment_state')
 
+    def compute_extend_date(self):
+        self.extend_check = False
+        return {
+            'name': ('Extend Date'),
+            'res_model': 'memberships.member',
+            'view_mode': 'form',
+            'view_id': self.env.ref('tk_gym_management.gym_memberships_form_view_extend_date').id,
+            'res_id': self.id,
+
+            'target': 'new',
+            'type': 'ir.actions.act_window',
+        }
+
+    @api.depends('price', 'discount')
+    def _compute_net_amount(self):
+        for rec in self:
+            rec.net_amount = 0
+            rec.net_amount = round(rec.price - (rec.price * (rec.discount / 100)))
+
+    @api.depends('gym_membership_type_id')
+    def _compute_remaining_of_session(self):
+        for rec in self:
+            rec.remaining_of_session = 0
+            if rec.gym_membership_type_id and rec.id:
+                attend_id = self.env['memberships.member.line'].search(
+                    [('parent_id', '=', rec.id), ('state', '=', 'attend')])
+                rec.remaining_of_session = rec.gym_membership_type_id.number_of_session
+                if attend_id:
+                    rec.remaining_of_session -= len(attend_id)
+
+    def compute_session(self):
+        for rec in range(0, self.number_of_session):
+            self.is_compute = True
+            self.env['memberships.member.line'].create({
+                'name': "session" + str(rec + 1),
+                'parent_id': self.id,
+                'state': 'draft',
 
             })
+            attend_ids = self.env['member.attendance'].search(
+                [('no_member', '=', True), ('member_id', '=', self.gym_member_id.id)], order='id asc')
+            if attend_ids:
+                line_ids = self.env['memberships.member.line'].search([('parent_id', '=', self.id)],
+                                                                      limit=len(attend_ids))
+                for line in line_ids:
+                    line.attend_id = self.id
+                    line.state = 'attend'
+                    line.parent_id._compute_remaining_of_session()
+                    if line.parent_id.remaining_of_session == 0:
+                        line.stages = 'expired'
 
-    @api.depends('start_date', 'duration')
+    @api.depends('start_date', 'duration', 'extend_date')
     def expired_date_count(self):
         end_date = fields.date.today()
         for rec in self:
             end_date = rec.start_date + relativedelta(months=rec.duration)
             rec.end_date = end_date
+            if rec.extend_date and rec.extend_check:
+                rec.end_date = rec.extend_date
+                rec.stages = 'active'
 
+    def action_confirm_extend(self):
+        print(">>>>>>>>>>>>>>>>>>.", self.extend_date, )
+        print(">>>>>>>>>>>>>>>>>>.", self.end_date)
+        if self.extend_date < self.end_date and self.extend_date:
+            raise ValidationError(_("Extend Date must be greater than end date"))
+        self.extend_check = True
+
+    # @api.constrains('extend_date')
+    # def _check_extend_date(self):
+    #     if self.extend_date<self.end_date and self.extend_date:
+    #         raise ValidationError(_("Extend Date must be greater than end date"))
     def draft_to_active(self):
         self.stages = 'active'
 
     def active_to_expiry(self):
         self.stages = 'expired'
         for rec in self.session_ids:
-            if rec.state =='draft':
+            if rec.state == 'draft':
                 rec.state = 'expired'
 
     @api.onchange('gym_membership_type_id', 'duration_id')
@@ -108,11 +178,28 @@ class MembershipsDetails(models.Model):
             rec['gym_membership_number'] = self.env['ir.sequence'].next_by_code('rest.seq.member') or 'New'
         return rec
 
+    def action_register_payment(self):
+        ''' Open the account.payment.register wizard to pay the selected journal entries.
+        :return: An action opening the account.payment.register wizard.
+        '''
+        return {
+            'name': ('Register Payment'),
+            'res_model': 'account.payment.register',
+            'view_mode': 'form',
+            'context': {
+                'active_model': 'account.move',
+                'active_ids': self.invoice_membership_id.id,
+            },
+            'target': 'new',
+            'type': 'ir.actions.act_window',
+        }
+
     def action_invoice(self):
         data = {
             'product_id': self.gym_membership_type_id.product_variant_id.id,
             'quantity': 1,
-            'price_unit': self.price
+            'price_unit': self.price,
+            'discount': self.discount
 
         }
         invoice_line = [(0, 0, data)]
@@ -127,15 +214,16 @@ class MembershipsDetails(models.Model):
 
         invoice_id = self.env['account.move'].sudo().create(record)
         self.invoice_membership_id = invoice_id.id
-        return {
-            'type': "ir.actions.act_window",
-            'name': 'Invoice',
-            'view_type': 'form',
-            'res_model': 'account.move',
-            'res_id': invoice_id.id,
-            'view_mode': 'form',
-            'target': 'current'
-        }
+        self.invoice_membership_id.sudo().action_post()
+        # return {
+        #     'type': "ir.actions.act_window",
+        #     'name': 'Invoice',
+        #     'view_type': 'form',
+        #     'res_model': 'account.move',
+        #     'res_id': invoice_id.id,
+        #     'view_mode': 'form',
+        #     'target': 'current'
+        # }
 
     @api.model
     def get_gym_stats(self):

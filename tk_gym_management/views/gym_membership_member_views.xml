@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
+    <record id="gym_memberships_form_view_extend_date" model="ir.ui.view">
+        <field name="name">gym.memberships.form.view</field>
+        <field name="model">memberships.member</field>
+        <field name="priority">1000</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="extend_date" required="1"/>
+                    <field name="extend_check" invisible="1"/>
+                </group>
+                <footer>
+                    <button name="action_confirm_extend" type="object" string="Confirm" class="oe_highlight"/>
+                </footer>
+            </form>
+        </field>
+    </record>
     <record id="gym_memberships_form_view" model="ir.ui.view">
         <field name="name">gym.memberships.form.view</field>
         <field name="model">memberships.member</field>
@@ -7,16 +23,21 @@
             <form>
                 <header>
                     <field name="is_compute" invisible="1"/>
+                    <field name="payment_state" invisible="1"/>
                     <field name="invoice_membership_id" invisible="1"/>
                     <button string="Create Invoice" name="action_invoice" type="object"
                             attrs="{'invisible':[('invoice_membership_id','!=',False)]}"/>
+                    <button context="{'dont_redirect_to_payments': True}" string="Register Payment"
+                            name="action_register_payment" type="object"
+                            attrs="{'invisible':['|', ('payment_state', 'not in', ('not_paid', 'partial')),('invoice_membership_id','=',False)]}"/>
                     <field name="stages" widget="statusbar" statusbar_visible="draft,active"/>
                     <button string="Active" name="draft_to_active" type="object"
                             attrs="{'invisible': [('stages', 'not in', ['draft'])]}"/>
                     <button string="Expired" name="active_to_expiry" type="object"
                             attrs="{'invisible': [('stages', 'not in', ['active'])]}"/>
-                       <button string="Compute Session" name="compute_session" type="object"
+                    <button string="Compute Session" name="compute_session" type="object"
                             attrs="{'invisible': [('is_compute', '=',True)]}"/>
+                    <button string="Extend Date" name="compute_extend_date" type="object"/>
                 </header>
                 <sheet>
                     <group>
@@ -36,14 +57,21 @@
                             <field name="duration_id" force_save="1" options="{'no_create':True}"
                                    attrs="{'invisible':[('gym_membership_type_id','=',False)]}"/>
                             <field name="currency_id" invisible="1"/>
-                            <field name="price" attrs="{'readonly':True,'invisible':[('gym_membership_type_id','=',False)]}"/>
+                            <field name="price" force_save="1"
+                                   attrs="{'readonly':True,'invisible':[('gym_membership_type_id','=',False)]}"/>
+                            <field name="discount" force_save="1"
+                                   attrs="{'invisible':[('gym_membership_type_id','=',False)]}"/>
+                            <field name="net_amount" force_save="1"
+                                   attrs="{'invisible':[('gym_membership_type_id','=',False)]}"/>
                         </group>
                         <group string="Membership Details" attrs="{'invisible':[('gym_membership_type_id','=',False)]}">
                             <field name="invoice_membership_id"
                                    attrs="{'invisible':[('invoice_membership_id','=',False)]}"/>
                             <field name="start_date"/>
                             <field name="end_date"/>
+                            <field name="extend_date" readonly="1"/>
                             <field name="number_of_session"/>
+                            <field name="remaining_of_session"/>
                         </group>
 
                     </group>
@@ -88,7 +116,7 @@
             <pivot string="history">
                 <field name="create_date" interval="month" type="col"/>
                 <field name="duration_id" type="col"/>
-                <field name="gym_membership_type_id" type="measure" string="Memberships" />
+                <field name="gym_membership_type_id" type="measure" string="Memberships"/>
                 <field name="price" type="measure"/>
                 <field name="gym_membership_type_id" type="row"/>
             </pivot>
@@ -98,5 +126,17 @@
         <field name="name">Memberships Details</field>
         <field name="res_model">memberships.member</field>
         <field name="view_mode">tree,form,pivot,activity</field>
+    </record>
+    <record id="membership_search" model="ir.ui.view">
+        <field name="name">membership_search</field>
+        <field name="model">memberships.member</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="gym_member_id" string="Member"/>
+                <field name="mobile" string="Mobile"/>
+                <field name="email" string="Email"/>
+                <field name="phone" string="Phone"/>
+            </search>
+        </field>
     </record>
 </odoo>

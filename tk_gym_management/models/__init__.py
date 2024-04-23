@@ -12,3 +12,4 @@ from . import gym_attendance
 from . import fitness_report
 from . import diet_nutrients
 from . import calender
+from . import sales_order

@@ -5,6 +5,13 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+            <header>
+                <button name="create_sales_order" type="object" string="Create Shop"/>
+            </header>
+            </xpath>
+
+
             <xpath expr="//field[@name='function']" position="before">
                 <field name="is_member"/>
             </xpath>
@@ -21,8 +28,12 @@
                 <attribute name="attrs">{'required':[('phone','=',False),('mobile','=',False)]}</attribute>
 
             </xpath>
-             <xpath expr="//field[@name='phone']" position="attributes">
+            <xpath expr="//field[@name='phone']" position="attributes">
                 <attribute name="attrs">{'required':[('phone','=',False),('mobile','=',False)]}</attribute>
+
+            </xpath>
+            <xpath expr="//field[@name='email']" position="attributes">
+                <attribute name="attrs">{'required':True}</attribute>
 
             </xpath>
             <xpath expr="//field[@name='age']" position="after">
@@ -30,7 +41,7 @@
             </xpath>
             <xpath expr="//notebook/page[@name='internal_notes']" position="after">
                 <page string="Workout Plans">
-                    <field name="workout_ids" options="{'no_create':True}" >
+                    <field name="workout_ids" options="{'no_create':True}">
                         <tree>
                             <field name="name"/>
                             <field name="trainer_id" options="{'no_create':True}"/>

@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
 # Copyright 2020-Today TechKhedut.
 # Part of TechKhedut. See LICENSE file for full copyright and licensing details.
-from odoo import models, fields, api
 import datetime
+
+from odoo import models, fields, api
 
 
 class GymMember(models.Model):
     _inherit = 'res.partner'
 
     is_member = fields.Boolean(string='Member')
-    trainer_id = fields.Many2one('hr.employee',  domain=[('is_trainer', '=', True)],string='Support Trainer')
+    trainer_id = fields.Many2one('hr.employee', domain=[('is_trainer', '=', True)], string='Support Trainer')
     birthdate = fields.Date(string='Birthdate', )
     age = fields.Integer(string='Age', compute='member_age')
     gender = fields.Selection([('m', 'Male'), ('f', 'Female')], string='Gender', required=True)
@@ -19,6 +20,15 @@ class GymMember(models.Model):
     diet_schedule = fields.Integer(string='Diet Plan', compute='get_diet_schedule_count')
     workout_ids = fields.Many2many('gym.workout', string='Workout Plans')
 
+    def create_sales_order(self):
+        return {
+            'name': ('Create Sales Order'),
+            'res_model': 'sale.order',
+            'view_mode': 'form',
+            'target': 'new',
+            'context':{'default_partner_id':self.id,'default_is_auto':True},
+            'type': 'ir.actions.act_window',
+        }
 
     def gym_member_reports(self):
         return {
