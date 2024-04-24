@@ -89,6 +89,7 @@ class MembershipsDetails(models.Model):
             'name': ('Extend Date'),
             'res_model': 'memberships.member',
             'view_mode': 'form',
+            'context': {'default_extend_date': self.end_date},
             'view_id': self.env.ref('tk_gym_management.gym_memberships_form_view_extend_date').id,
             'res_id': self.id,
 
