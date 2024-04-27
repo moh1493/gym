@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <form>
                 <group>
-                    <field name="extend_date" required="1"/>
+                    <field name="extend_date" required="1" force_save="1"/>
                     <field name="extend_check" invisible="1"/>
                 </group>
                 <footer>
@@ -133,9 +133,9 @@
         <field name="arch" type="xml">
             <search string="">
                 <field name="gym_member_id" string="Member"/>
-                <field name="mobile" string="Mobile"/>
+                    <field name="phone" filter_domain="['|', ('gym_member_id.phone', 'ilike', self), ('gym_member_id.mobile', 'ilike', self)]"/>
                 <field name="email" string="Email"/>
-                <field name="phone" string="Phone"/>
+<!--                <field name="phone" string="Phone"/>-->
             </search>
         </field>
     </record>

@@ -26,7 +26,7 @@ class GymMemberAttendance(models.Model):
 
     member_id = fields.Many2one('res.partner', string='Member', domain=[('is_member', '=', True)], required=True)
     check_in = fields.Datetime(string='Check In', default=datetime.today())
-    check_out = fields.Datetime(string='Check Out', readonly=True, store=True)
+    check_out = fields.Datetime(string='Check Out', readonly=True, store=True,copy=False)
     trainer_id = fields.Many2one("hr.employee", required=True)
     class_id = fields.Many2one("resource.calendar", required=True, domain="[('id','in',class_ids)]")
     class_ids = fields.Many2many("resource.calendar", compute="get_class_ids")
@@ -99,13 +99,16 @@ class GymMemberAttendance(models.Model):
         if member_id:
             member_id.attend_id = self.id
             member_id.state = 'attend'
-            member_id.date = self.check_out
+            member_id.date = self.check_in
             member_id.parent_id._compute_remaining_of_session()
+
             if member_id.parent_id.remaining_of_session == 0:
-                member_id.stages = 'expired'
-            if class_id and not self.class_id:
-                self.class_id = member_id.class_id = class_id.calendar_id.id
-                self.trainer_id = member_id.trainer_id = class_id.calendar_id.trainer_id.id if class_id.calendar_id.trainer_id else ''
+                member_id.parent_id.stages = 'expired'
+            if self.class_id:
+                member_id.class_id = self.class_id.id
+                member_id.trainer_id = self.trainer_id.id if self.trainer_id else ''
+                # self.class_id = member_id.class_id = class_id.calendar_id.id
+                # self.trainer_id = member_id.trainer_id = class_id.calendar_id.trainer_id.id if class_id.calendar_id.trainer_id else ''
 
     # @api.model
     # def create(self, vals):

@@ -85,6 +85,8 @@ class MembershipsDetails(models.Model):
 
     def compute_extend_date(self):
         self.extend_check = False
+        print("==================",{'default_extend_date': self.end_date},)
+        self.extend_date=self.end_date
         return {
             'name': ('Extend Date'),
             'res_model': 'memberships.member',
@@ -117,7 +119,7 @@ class MembershipsDetails(models.Model):
     def compute_session(self):
         for rec in range(0, self.number_of_session):
             self.is_compute = True
-            self.env['memberships.member.line'].create({
+            line=self.env['memberships.member.line'].create({
                 'name': "session" + str(rec + 1),
                 'parent_id': self.id,
                 'state': 'draft',
@@ -125,15 +127,24 @@ class MembershipsDetails(models.Model):
             })
             attend_ids = self.env['member.attendance'].search(
                 [('no_member', '=', True), ('member_id', '=', self.gym_member_id.id)], order='id asc')
+
             if attend_ids:
                 line_ids = self.env['memberships.member.line'].search([('parent_id', '=', self.id)],
                                                                       limit=len(attend_ids))
-                for line in line_ids:
-                    line.attend_id = self.id
-                    line.state = 'attend'
-                    line.parent_id._compute_remaining_of_session()
-                    if line.parent_id.remaining_of_session == 0:
-                        line.stages = 'expired'
+                print(">>>>>>>>>>>>>>>>>>>>>>>" ,len(attend_ids))
+                print(">>>>>>>>>>>>>>>>>>>>>>>" ,(line_ids))
+                # for line in line_ids:
+                li_attend_id = self.env['member.attendance'].search(
+                    [('no_member', '=', True), ('member_id', '=', self.gym_member_id.id)],   limit=1)
+                line.attend_id = li_attend_id.id
+                line.date = li_attend_id.check_in
+                line.class_id = li_attend_id.class_id.id if li_attend_id.class_id else ''
+                line.trainer_id = li_attend_id.trainer_id.id if li_attend_id.trainer_id else ''
+                li_attend_id.no_member = False
+                line.state = 'attend'
+                line.parent_id._compute_remaining_of_session()
+                if line.parent_id.remaining_of_session == 0:
+                    line.stages = 'expired'
 
     @api.depends('start_date', 'duration', 'extend_date')
     def expired_date_count(self):
