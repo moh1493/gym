@@ -1,0 +1,222 @@
+{
+	"info": {
+		"_postman_id": "eb08a6d7-f9cd-4fe9-8af2-86ea25c6bf43",
+		"name": "Gym",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13669779",
+		"_collection_link": "https://blue-resonance-410178.postman.co/workspace/My-Workspace~80099291-3848-4dc2-81a1-753fc6e603a2/collection/13669779-eb08a6d7-f9cd-4fe9-8af2-86ea25c6bf43?action=share&source=collection_link&creator=13669779"
+	},
+	"item": [
+		{
+			"name": "memberdata",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"params\":\n {      \"token\":\"11b0fdd20272c610e651a43d8a451ce704028aa9\",\n  \n     \"name\":\"Mohamed Ali\",\n     \"email\":\"mohamed@gmail.com\",\n     \"phone\":123213213,\n     \"mobile\":\"0112323213123\",\n     \"job_position\":\"Developer\",\n     \"website\":\"WWW.google.com\",\n     \"birthdate\":\"12-2-1998\"\n    \n }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}api/create_member",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"create_member"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit Member",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"params\":\n {      \"token\":\"11b0fdd20272c610e651a43d8a451ce704028aa9\",\n \"member_id\":69,\n  \n     \"name\":\"Mohamed Al ahmmmmmi\",\n     \"email\":\"mohamed@gmail.com\",\n     \"phone\":123213213,\n     \"mobile\":\"0112323213123\",\n     \"job_position\":\"Developer\",\n     \"website\":\"WWW.google.com\",\n     \"birthdate\":\"12-2-1998\"\n    \n }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}api/edit_member",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"edit_member"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve member",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"params\":\n {      \"token\":\"11b0fdd20272c610e651a43d8a451ce704028aa9\",\n  \n   \"member_id\":69\n }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}api/retrieve_member",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"retrieve_member"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Member ship types",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"params\":\n {      \"token\":\"11b0fdd20272c610e651a43d8a451ce704028aa9\"\n  \n }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}api/retrieve_membership_type",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"retrieve_membership_type"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Member ship",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"params\":\n {      \"token\":\"11b0fdd20272c610e651a43d8a451ce704028aa9\",\n  \n   \"member_id\":69,\n   \"membership_type_id\":119\n }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}api/create_membership",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"create_membership"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve Classes",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"params\":\n {      \"token\":\"11b0fdd20272c610e651a43d8a451ce704028aa9\"}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}api/retrieve_classes",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"retrieve_classes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve Remaing Session",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"params\":\n {      \"token\":\"11b0fdd20272c610e651a43d8a451ce704028aa9\",\n  \n   \"membership_id\":5\n \n }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}api/retrieve_remaining_of_session",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"retrieve_remaining_of_session"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://mohamed:8026/",
+			"type": "string"
+		}
+	]
+}
