@@ -33,7 +33,17 @@ class GymMemberAttendance(models.Model):
     no_member = fields.Boolean(copy=False)
     number_of_session_no = fields.Integer(copy=False)
     active = fields.Boolean(default=True)
-    member_id = fields.Many2one("memberships.member.line")
+    member_ship_line_id = fields.Many2one("memberships.member.line")
+    member_ship_id = fields.Many2one("memberships.member",domain="[('gym_member_id','=',member_id),('stages','!=','expired'),('start_date', '<=', check_in),]")
+    total_due = fields.Float(compute="compute_amount_due")
+    company_id = fields.Many2one('res.company', 'Company', default=lambda self: self.env.company, ondelete='cascade',
+                                 readonly=True)
+
+    @api.depends('member_id')
+    def compute_amount_due(self):
+        for rec in self:
+            rec.total_due=rec.member_id.total_due
+
     @api.depends("check_in")
     def get_class_ids(self):
         for rec in self:
@@ -65,10 +75,16 @@ class GymMemberAttendance(models.Model):
             'type': 'ir.actions.act_window',
         }
     def check_out_member_warning(self):
+        # member_id = self.env['memberships.member.line'].search(
+        #     [('parent_id.gym_member_id', '=', self.member_id.id), \
+        #      ('parent_id.start_date', '<=', self.check_in),
+        #      ('parent_id.end_date', '>=', self.check_out),
+        #      ('state', '=', 'draft')], order='id asc', limit=1)
         member_id = self.env['memberships.member.line'].search(
             [('parent_id.gym_member_id', '=', self.member_id.id), \
+            ('parent_id', '=', self.member_ship_id.id),
              ('parent_id.start_date', '<=', self.check_in),
-             ('parent_id.end_date', '>=', self.check_out),
+                  ('parent_id.end_date', '>=', self.check_out),
              ('state', '=', 'draft')], order='id asc', limit=1)
         if not member_id and self.no_member==False:
 
@@ -111,14 +127,14 @@ class GymMemberAttendance(models.Model):
                 member_id.trainer_id = self.trainer_id.id if self.trainer_id else ''
                 # self.class_id = member_id.class_id = class_id.calendar_id.id
                 # self.trainer_id = member_id.trainer_id = class_id.calendar_id.trainer_id.id if class_id.calendar_id.trainer_id else ''
-            self.member_id=member_id.id
+            self.member_ship_line_id=member_id.id
     def action_cancel(self):
         self.member_id.state='draft'
         self.member_id.date=''
         self.member_id.class_id=''
         self.member_id.trainer_id=''
         self.active=False
-        self.member_id=''
+        self.member_ship_line_id=''
     # @api.model
     # def create(self, vals):
     #     res = super().create(vals)

@@ -30,8 +30,10 @@ class attendance(http.Controller):
             # customer_id = request.env['res.partner'].sudo().search([("id", "=", kwargs['customer_id'])])
 
             return {"status": "failed", "massage": " Member Id not Found"}
+
         if not request.env['res.partner'].sudo().search([('id', '=', kwargs['member_id'])]):
-            return {"status": "failed", "massage": "There 's no member ship have this id"}
+            return {"status": "failed", "massage": "There 's no member  have this id"}
+
         for rec in request.env['member.attendance'].sudo().search([('member_id', '=', kwargs['member_id'])]):
             product_temp.append( {'member_id': kwargs['member_id'],
             'class_name': rec.class_id.name,
@@ -39,6 +41,7 @@ class attendance(http.Controller):
             'check_in':rec.check_in,
              "trainer_id":rec.class_id.trainer_id.id,
              "trainer_name":rec.class_id.trainer_id.name,
+
                                   })
 
         return {"status": "success", "data": product_temp}
@@ -70,7 +73,12 @@ class attendance(http.Controller):
             return {"status": "failed", "massage": "There 's no member ship have this id"}
         if not request.env['resource.calendar.attendance'].sudo().search([('id', '=', kwargs['class_id'])]):
             return {"status": "failed", "massage": "There isn't class have this id"}
+        if 'member_ship_id' not in kwargs:
+            # customer_id = request.env['res.partner'].sudo().search([("id", "=", kwargs['customer_id'])])
 
+            return {"status": "failed", "massage": " MemberShip Id not Found"}
+        if not request.env['memberships.member'].sudo().search([('id', '=', kwargs['member_ship_id'])]):
+            return {"status": "failed", "massage": "There 's no member ship have this id"}
         date = datetime.datetime.strptime(kwargs['sign_in'], format)
         class_id=request.env['resource.calendar.attendance'].sudo().search([('id', '=', kwargs['class_id'])])
         if not class_id.calendar_id.trainer_id:
@@ -80,7 +88,8 @@ class attendance(http.Controller):
             'member_id': kwargs['member_id'],
             'class_id': class_id.calendar_id.id,
             'check_in':date,
-             "trainer_id":class_id.calendar_id.trainer_id.id
+             "trainer_id":class_id.calendar_id.trainer_id.id,
+            "member_ship_id":kwargs['member_ship_id']
 
         })
         membership_id.check_in -=datetime.timedelta(hours=3)

@@ -36,7 +36,8 @@
         'hr',
         'account',
         'resource'
-        ,'sale'
+        ,'sale',
+        'base_accounting_kit'
     ],
     'data': [
         # Security

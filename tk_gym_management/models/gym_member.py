@@ -20,6 +20,8 @@ class GymMember(models.Model):
     diet_schedule = fields.Integer(string='Diet Plan', compute='get_diet_schedule_count')
     workout_ids = fields.Many2many('gym.workout', string='Workout Plans')
 
+
+
     def create_sales_order(self):
         return {
             'name': ('Create Sales Order'),
