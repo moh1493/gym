@@ -32,6 +32,8 @@ class GymMemberAttendance(models.Model):
     class_ids = fields.Many2many("resource.calendar", compute="get_class_ids")
     no_member = fields.Boolean(copy=False)
     number_of_session_no = fields.Integer(copy=False)
+    active = fields.Boolean(default=True)
+    member_id = fields.Many2one("memberships.member.line")
     @api.depends("check_in")
     def get_class_ids(self):
         for rec in self:
@@ -109,7 +111,14 @@ class GymMemberAttendance(models.Model):
                 member_id.trainer_id = self.trainer_id.id if self.trainer_id else ''
                 # self.class_id = member_id.class_id = class_id.calendar_id.id
                 # self.trainer_id = member_id.trainer_id = class_id.calendar_id.trainer_id.id if class_id.calendar_id.trainer_id else ''
-
+            self.member_id=member_id.id
+    def action_cancel(self):
+        self.member_id.state='draft'
+        self.member_id.date=''
+        self.member_id.class_id=''
+        self.member_id.trainer_id=''
+        self.active=False
+        self.member_id=''
     # @api.model
     # def create(self, vals):
     #     res = super().create(vals)
@@ -125,3 +134,5 @@ class GymMemberAttendance(models.Model):
     #              member_id.attend_id=rec.id
     #              member_id.state='attend'
     #     return res
+
+

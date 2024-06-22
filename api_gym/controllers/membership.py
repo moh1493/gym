@@ -2,6 +2,8 @@ from odoo.http import request
 
 from odoo import http
 
+import datetime
+format = '%d-%m-%Y'
 
 class MemberShip(http.Controller):
 
@@ -10,13 +12,28 @@ class MemberShip(http.Controller):
         # if api_token and str(api_token) == str(kwargs['token']):
 
         product_temp = []
-        for rec in request.env['resource.calendar.attendance'].sudo().search([('calendar_id.is_member', '=', True)]):
-            days = [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday","Sunday"]
+        if  'date' not in kwargs:
+            return  {"status": "failed", "massage": " Date  not Found"}
+        date  = datetime.datetime.strptime(kwargs['date'], format)
+        day =date.strftime("%A")
+
+
+        days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+        day_no =date.weekday()
+        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>.", day, date,day_no)
+
+        for rec in request.env['resource.calendar.attendance'].sudo().search([('dayofweek','=',day_no),('calendar_id.is_member', '=', True)]):
+            attendance_ids = request.env['member.attendance'].sudo()\
+                .search([('class_id','=',rec.id),('check_in', '>=',date.date()),('check_out', '<=',date.date()+datetime.timedelta(hours=24))])
             product_temp.append({'id': rec.id,
                                  'name': rec.display_name,
                                  'day_of_week': days[int(rec.dayofweek)],
                                  'from': rec.hour_from,
                                  'to': rec.hour_to,
+                                 "trainer_id":rec.calendar_id.trainer_id.name if rec.calendar_id.trainer_id else '',
+                                 'limit_of_class':rec.limit_of_class,
+                                 'description':rec.description if rec.description else '',
+                                 "attendance":len(attendance_ids)
                                  })
 
         return {"status": "success", "data": product_temp}

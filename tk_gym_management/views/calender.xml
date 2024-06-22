@@ -17,5 +17,20 @@
 
             </field>
         </record>
+        <!-- Inherit Form View to Modify it -->
+        <record id="view_resource_calendar_attendance_tree_custom" model="ir.ui.view">
+            <field name="name">view_resource_calendar_attendance_tree_custom</field>
+            <field name="model">resource.calendar.attendance</field>
+            <field name="inherit_id" ref="resource.view_resource_calendar_attendance_tree"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='week_type']" position="before">
+                    <field name="description"/>
+                    <field name="limit_of_class"/>
+                    <!-- Add your fields or attributes here -->
+                </xpath>
+
+            </field>
+        </record>
     </data>
 </odoo>

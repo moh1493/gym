@@ -2,3 +2,4 @@
 
 from . import member
 from . import membership
+from . import attendance
