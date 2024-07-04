@@ -38,6 +38,12 @@ class GymMemberAttendance(models.Model):
     total_due = fields.Float(compute="compute_amount_due")
     company_id = fields.Many2one('res.company', 'Company', default=lambda self: self.env.company, ondelete='cascade',
                                  readonly=True)
+    date = fields.Date(compute='get_date')
+
+    @api.depends('check_in')
+    def get_date(self):
+        for rec in self:
+            rec.date = rec.check_in.date()
 
     @api.depends('member_id')
     def compute_amount_due(self):
@@ -104,7 +110,8 @@ class GymMemberAttendance(models.Model):
             # self.number_of_session_no = len(self.search([('member_id','=',self.member_id.id),('no_member','=',True)]))
             self.no_member = True
             # return self.send_warning()
-        self.check_out = fields.datetime.today()
+        # self.check_out = fields.datetime.today()
+        self.check_out = self.check_in
 
         checkin = (self.check_in + timedelta(hours=2)).hour + ((self.check_in + timedelta(hours=2)).minute / 60)
         checkout = (self.check_out + timedelta(hours=2)).hour + ((self.check_out + timedelta(hours=2)).minute / 60)
@@ -129,10 +136,12 @@ class GymMemberAttendance(models.Model):
                 # self.trainer_id = member_id.trainer_id = class_id.calendar_id.trainer_id.id if class_id.calendar_id.trainer_id else ''
             self.member_ship_line_id=member_id.id
     def action_cancel(self):
-        self.member_id.state='draft'
-        self.member_id.date=''
-        self.member_id.class_id=''
-        self.member_id.trainer_id=''
+        self.member_ship_line_id.state='draft'
+        self.member_ship_line_id.date=''
+        self.member_ship_line_id.class_id=''
+        self.member_ship_line_id.trainer_id=''
+        self.member_ship_line_id.attend_id=''
+
         self.active=False
         self.member_ship_line_id=''
     # @api.model

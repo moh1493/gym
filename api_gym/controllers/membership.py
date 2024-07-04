@@ -23,13 +23,15 @@ class MemberShip(http.Controller):
         print(">>>>>>>>>>>>>>>>>>>>>>>>>>>.", day, date,day_no)
 
         for rec in request.env['resource.calendar.attendance'].sudo().search([('dayofweek','=',day_no),('calendar_id.is_member', '=', True)]):
-            attendance_ids = request.env['member.attendance'].sudo()\
-                .search([('class_id','=',rec.id),('check_in', '>=',date.date()),('check_out', '<=',date.date()+datetime.timedelta(hours=24))])
+            # attendance_ids = request.env['member.attendance'].sudo()\
+            #     .search([('class_id','=',rec.id)])
+            attendance_ids = request.env['member.attendance'].sudo() \
+                .search([('class_id', '=', rec.calendar_id.id), ('date', '=', date.date())])
             product_temp.append({'id': rec.id,
                                  'name': rec.display_name,
                                  'day_of_week': days[int(rec.dayofweek)],
-                                 'from': rec.hour_from,
-                                 'to': rec.hour_to,
+                                 'from': '{0:02.0f}:{1:02.0f}'.format(*divmod(rec.hour_from * 60, 60)),
+                                 'to':  '{0:02.0f}:{1:02.0f}'.format(*divmod(rec.hour_to * 60, 60)),
                                  "trainer_id":rec.calendar_id.trainer_id.name if rec.calendar_id.trainer_id else '',
                                  'limit_of_class':rec.limit_of_class,
                                  'description':rec.description if rec.description else '',
@@ -51,6 +53,35 @@ class MemberShip(http.Controller):
 
         return {"status": "success", "remaining_session": request.env['memberships.member'].sudo().search(
             [('id', '=', kwargs['membership_id'])]).remaining_of_session}
+
+    @http.route('/api/retrieve_member_ship_for_member', type="json", auth="public")
+    def retrieve_membership_for_memeber(self, **kwargs):
+        # if api_token and str(api_token) == str(kwargs['token']):
+
+        product_temp = []
+        if 'member_id' not in kwargs:
+            # customer_id = request.env['res.partner'].sudo().search([("id", "=", kwargs['customer_id'])])
+
+            return {"status": "failed", "massage": " Member Id not Found"}
+
+        if not request.env['res.partner'].sudo().search([('id', '=', kwargs['member_id'])]):
+            return {"status": "failed", "massage": "There 's no member  have this id"}
+
+        for rec in request.env['memberships.member'].sudo().search([('gym_member_id', '=', kwargs['member_id'])]):
+            product_temp.append({'member_id': kwargs['member_id'],
+                                 'name':rec.name,
+                                 'member_ship_id': rec.gym_membership_type_id.id,
+                                 'member_ship_name': rec.gym_membership_type_id.name,
+                                 'duration_id': rec.duration_id.name,
+                                 'net_amount': rec.net_amount,
+                                 'start_date': rec.start_date,
+                                 'end_date': rec.end_date,
+                                 'number_of_session': rec.number_of_session,
+                                 "remaining_of_session": rec.remaining_of_session,
+
+                                 })
+
+        return {"status": "success", "data": product_temp}
 
     @http.route('/api/retrieve_membership_type', type="json", auth="public")
     def retrieve_membership_type(self, **kwargs):

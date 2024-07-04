@@ -8,11 +8,25 @@ format = '%d-%m-%Y %H:%M'
 class attendance(http.Controller):
     @http.route('/api/signincancel', type="json", auth="public")
     def sign_cancel_member(self, **kwargs):
-        if 'id' not in kwargs:
+        if 'class_id' not in kwargs:
             # customer_id = request.env['res.partner'].sudo().search([("id", "=", kwargs['customer_id'])])
 
             return {"status": "failed", "massage": " id not Found"}
-        membership_id = request.env['member.attendance'].sudo().search([('id','=',kwargs['id'])])
+        if 'member_id' not in kwargs:
+            # customer_id = request.env['res.partner'].sudo().search([("id", "=", kwargs['customer_id'])])
+
+            return {"status": "failed", "massage": " Member Id not Found"}
+        if 'date' not in kwargs:
+            # customer_id = request.env['res.partner'].sudo().search([("id", "=", kwargs['customer_id'])])
+
+            return {"status": "failed", "massage": " Date Id not Found"}
+
+        if not request.env['res.partner'].sudo().search([('id', '=', kwargs['member_id'])]):
+            return {"status": "failed", "massage": "There 's no member  have this id"}
+        if not request.env['resource.calendar.attendance'].sudo().search([('id','=',kwargs['class_id']),('calendar_id.is_member', '=', True)]):
+            return {"status": "failed", "massage": "There 's no member  have this id"}
+        class_id=request.env['resource.calendar.attendance'].sudo().search([('id','=',kwargs['class_id']),('calendar_id.is_member', '=', True)])
+        membership_id = request.env['member.attendance'].sudo().search([('date','=',kwargs['date']),('member_id','=',kwargs['member_id']),('class_id','=',class_id.calendar_id.id)],limit=1)
         if not membership_id:
             return {"status": "failed", "massage": " id not Found"}
         else:
@@ -73,23 +87,24 @@ class attendance(http.Controller):
             return {"status": "failed", "massage": "There 's no member ship have this id"}
         if not request.env['resource.calendar.attendance'].sudo().search([('id', '=', kwargs['class_id'])]):
             return {"status": "failed", "massage": "There isn't class have this id"}
-        if 'member_ship_id' not in kwargs:
-            # customer_id = request.env['res.partner'].sudo().search([("id", "=", kwargs['customer_id'])])
-
-            return {"status": "failed", "massage": " MemberShip Id not Found"}
-        if not request.env['memberships.member'].sudo().search([('id', '=', kwargs['member_ship_id'])]):
-            return {"status": "failed", "massage": "There 's no member ship have this id"}
+        # if 'member_ship_id' not in kwargs:
+        #     # customer_id = request.env['res.partner'].sudo().search([("id", "=", kwargs['customer_id'])])
+        #
+        #     return {"status": "failed", "massage": " MemberShip Id not Found"}
+        # if not request.env['memberships.member'].sudo().search([('id', '=', kwargs['member_ship_id'])]):
+        #     return {"status": "failed", "massage": "There 's no member ship have this id"}
         date = datetime.datetime.strptime(kwargs['sign_in'], format)
         class_id=request.env['resource.calendar.attendance'].sudo().search([('id', '=', kwargs['class_id'])])
         if not class_id.calendar_id.trainer_id:
             return {"status": "failed", "massage": "There isn't have Trainer"}
 
+        member_ship_id2 = request.env['memberships.member'].sudo().search([('gym_member_id', '=', kwargs['member_id']),('remaining_of_session','>',0)],limit=1)
         membership_id = request.env['member.attendance'].sudo().create({
             'member_id': kwargs['member_id'],
             'class_id': class_id.calendar_id.id,
             'check_in':date,
              "trainer_id":class_id.calendar_id.trainer_id.id,
-            "member_ship_id":kwargs['member_ship_id']
+            "member_ship_id":member_ship_id2.id if member_ship_id2 else ''
 
         })
         membership_id.check_in -=datetime.timedelta(hours=3)

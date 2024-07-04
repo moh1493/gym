@@ -11,11 +11,14 @@ class Move(http.Controller):
 
         # if api_token and str(api_token) == str(kwargs['token']):
 
-        if 'name' not in kwargs:
+        if 'name' not in kwargs or 'email'not in kwargs:
             # customer_id = request.env['res.partner'].sudo().search([("id", "=", kwargs['customer_id'])])
 
             return {"status": "failed", "massage": "Name Of Member Id not Found"}
         else:
+             customer_id = request.env['res.partner'].sudo().search([('email','=',kwargs['email'])])
+             if customer_id:
+                 return {"status": "failed", "massage": "email must be unique"}
              customer_id = request.env['res.partner'].sudo().create({
                 'name': kwargs['name'],
                 'phone': kwargs['phone'] if 'phone' in kwargs else '',
@@ -42,6 +45,10 @@ class Move(http.Controller):
             customer_id = request.env['res.partner'].sudo().search([('id', '=', kwargs['member_id'])])
             if not customer_id:
                 return {"status": "failed", "massage": "There 's no mamber not found"}
+            if 'email' in kwargs:
+                customer_id2 = request.env['res.partner'].sudo().search([('id', '=', kwargs['member_id']),('email', '=', kwargs['email'])])
+                if customer_id2:
+                    return {"status": "failed", "massage": "email must be unique"}
 
             customer_id.sudo().write({
                 'name': kwargs['name'],

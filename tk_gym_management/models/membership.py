@@ -50,7 +50,14 @@ class MembershipsDetails(models.Model):
     _name = 'memberships.member'
     _inherit = ["mail.thread", "mail.activity.mixin"]
     _description = 'Memberships  Members Details'
-    _rec_name = 'gym_member_id'
+    _rec_name = 'name'
+    name = fields.Char(compute="get_name_2")
+    @api.depends('gym_membership_type_id','gym_member_id')
+    def get_name_2(self):
+        for rec in self:
+            rec.name = ''
+            if rec.gym_member_id and rec.gym_membership_type_id:
+                rec.name = rec.gym_membership_type_id.name+"-"+rec.gym_member_id.name
     session_ids = fields.One2many("memberships.member.line", "parent_id")
     gym_membership_number = fields.Char(string='', copy=False, readonly=True,
                                         default=lambda self: 'New')
@@ -141,6 +148,7 @@ class MembershipsDetails(models.Model):
                 line.class_id = li_attend_id.class_id.id if li_attend_id.class_id else ''
                 line.trainer_id = li_attend_id.trainer_id.id if li_attend_id.trainer_id else ''
                 li_attend_id.no_member = False
+                li_attend_id.member_ship_line_id=line.id
                 line.state = 'attend'
                 line.parent_id._compute_remaining_of_session()
                 if line.parent_id.remaining_of_session == 0:
