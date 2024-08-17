@@ -91,6 +91,7 @@ class MemberShip(http.Controller):
         for rec in request.env['product.template'].sudo().search([('is_membership', '=', True)]):
 
             product_temp.append({'id': rec.id, 'name': rec.display_name, 'price': rec.list_price,
+                                 'category':rec.categ_id.name if rec.categ_id else '',
                                  'number_of_session': rec.number_of_session})
 
         return {"status": "success", "data": product_temp}
