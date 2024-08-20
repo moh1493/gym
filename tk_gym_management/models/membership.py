@@ -152,7 +152,8 @@ class MembershipsDetails(models.Model):
                 line.state = 'attend'
                 line.parent_id._compute_remaining_of_session()
                 if line.parent_id.remaining_of_session == 0:
-                    line.stages = 'expired'
+                    line.parent_id.stages = 'expired'
+
 
     @api.depends('start_date', 'duration', 'extend_date')
     def expired_date_count(self):
