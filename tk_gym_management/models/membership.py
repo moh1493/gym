@@ -138,8 +138,7 @@ class MembershipsDetails(models.Model):
             if attend_ids:
                 line_ids = self.env['memberships.member.line'].search([('parent_id', '=', self.id)],
                                                                       limit=len(attend_ids))
-                print(">>>>>>>>>>>>>>>>>>>>>>>" ,len(attend_ids))
-                print(">>>>>>>>>>>>>>>>>>>>>>>" ,(line_ids))
+
                 # for line in line_ids:
                 li_attend_id = self.env['member.attendance'].search(
                     [('no_member', '=', True), ('member_id', '=', self.gym_member_id.id)],   limit=1)
@@ -148,6 +147,7 @@ class MembershipsDetails(models.Model):
                 line.class_id = li_attend_id.class_id.id if li_attend_id.class_id else ''
                 line.trainer_id = li_attend_id.trainer_id.id if li_attend_id.trainer_id else ''
                 li_attend_id.no_member = False
+                li_attend_id.member_ship_id=self.id
                 li_attend_id.member_ship_line_id=line.id
                 line.state = 'attend'
                 line.parent_id._compute_remaining_of_session()

@@ -18,7 +18,7 @@ class Move(http.Controller):
         else:
              customer_id = request.env['res.partner'].sudo().search([('email','=',kwargs['email'])])
              if customer_id:
-                 return {"status": "failed", "massage": "email must be unique"}
+                 return {"id":customer_id.id,"status": "failed", "massage": "email must be unique"}
              customer_id = request.env['res.partner'].sudo().create({
                 'name': kwargs['name'],
                 'phone': kwargs['phone'] if 'phone' in kwargs else '',
@@ -48,7 +48,7 @@ class Move(http.Controller):
             if 'email' in kwargs:
                 customer_id2 = request.env['res.partner'].sudo().search([('id', '=', kwargs['member_id']),('email', '=', kwargs['email'])])
                 if customer_id2:
-                    return {"status": "failed", "massage": "email must be unique"}
+                    return {"id":customer_id.id,"status": "failed", "massage": "email must be unique"}
 
             customer_id.sudo().write({
                 'name': kwargs['name'],

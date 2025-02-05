@@ -70,7 +70,8 @@ class MemberShip(http.Controller):
         for rec in request.env['memberships.member'].sudo().search([('gym_member_id', '=', kwargs['member_id'])]):
             product_temp.append({'member_id': kwargs['member_id'],
                                  'name':rec.name,
-                                 'member_ship_id': rec.gym_membership_type_id.id,
+                                 'member_ship_type_id': rec.gym_membership_type_id.id,
+                                 'member_ship_id': rec.id,
                                  'member_ship_name': rec.gym_membership_type_id.name,
                                  'duration_id': rec.duration_id.name,
                                  'net_amount': rec.net_amount,
@@ -78,6 +79,7 @@ class MemberShip(http.Controller):
                                  'end_date': rec.end_date,
                                  'number_of_session': rec.number_of_session,
                                  "remaining_of_session": rec.remaining_of_session,
+                                 'category': rec.gym_membership_type_id.categ_id.name if rec.gym_membership_type_id.categ_id else '',
 
                                  })
 
