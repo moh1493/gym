@@ -105,6 +105,14 @@ class GymMemberAttendance(models.Model):
              ('parent_id.start_date', '<=', self.check_in),
              ('parent_id.end_date', '>=', self.check_out),
              ('state', '=', 'draft')], order='id asc', limit=1)
+        if self.member_ship_id:
+            member_id = self.env['memberships.member.line'].search(
+                [('parent_id.gym_member_id', '=', self.member_id.id), \
+                 ('parent_id.start_date', '<=', self.check_in),
+                 ('parent_id.end_date', '>=', self.check_out),
+                 ('parent_id.gym_membership_type_id', '=', self.member_ship_id.id),
+                 ('state', '=', 'draft')], order='id asc', limit=1)
+
         if not member_id and self.no_member==False:
 
             # self.number_of_session_no = len(self.search([('member_id','=',self.member_id.id),('no_member','=',True)]))
