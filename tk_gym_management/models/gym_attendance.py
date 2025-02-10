@@ -103,15 +103,14 @@ class GymMemberAttendance(models.Model):
         member_id = self.env['memberships.member.line'].search(
             [('parent_id.gym_member_id', '=', self.member_id.id), \
              ('parent_id.start_date', '<=', self.check_in),
-             ('parent_id.end_date', '>=', self.check_out),
+             ('parent_id.end_date', '>=', self.check_out),('attend_id','=',False),
              ('state', '=', 'draft')], order='id asc', limit=1)
         if self.member_ship_id:
             member_id = self.env['memberships.member.line'].search(
                 [('parent_id.gym_member_id', '=', self.member_id.id), \
-                 ('parent_id.start_date', '<=', self.check_in),
-                 ('parent_id.end_date', '>=', self.check_out),
-                 ('parent_id.gym_membership_type_id', '=', self.member_ship_id.id),
-                 ('state', '=', 'draft')], order='id asc', limit=1)
+                 ('parent_id', '=', self.member_ship_id.id),('attend_id','=',False),
+               ], order='id asc', limit=1)
+
 
         if not member_id and self.no_member==False:
 
@@ -130,6 +129,7 @@ class GymMemberAttendance(models.Model):
              ('calendar_id.is_member', '=', True)], limit=1)
 
         if member_id:
+            print("11111111111111111111111111111111", member_id, member_id.parent_id)
             member_id.attend_id = self.id
             member_id.state = 'attend'
             member_id.date = self.check_in
