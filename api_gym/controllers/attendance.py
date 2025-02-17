@@ -16,10 +16,10 @@ class attendance(http.Controller):
 
             return {"status": "failed", "massage": " Member Id not Found"}
 
-        if 'member_ship_id' not in kwargs:
-            # customer_id = request.env['res.partner'].sudo().search([("id", "=", kwargs['customer_id'])])
-
-            return {"status": "failed", "massage": " MemberShip Id not Found"}
+        # if 'member_ship_id' not in kwargs:
+        #     # customer_id = request.env['res.partner'].sudo().search([("id", "=", kwargs['customer_id'])])
+        #
+        #     return {"status": "failed", "massage": " MemberShip Id not Found"}
         if kwargs['member_ship_id'] != 0:
             mem_id = request.env['memberships.member'].sudo().search([('id', '=', kwargs['member_ship_id'])])
             if not mem_id:
@@ -31,9 +31,14 @@ class attendance(http.Controller):
         if not request.env['res.partner'].sudo().search([('id', '=', kwargs['member_id'])]):
             return {"status": "failed", "massage": "There 's no member  have this id"}
 
-        membership_id = request.env['member.attendance'].sudo().search(
-            [('member_ship_id', '=',kwargs['member_ship_id']), ('member_id', '=', kwargs['member_id']),
-             ],order='id desc', limit=1)
+        if kwargs['member_ship_id'] != 0:
+            membership_id = request.env['member.attendance'].sudo().search(
+                [('member_ship_id', '=',kwargs['member_ship_id']), ('member_id', '=', kwargs['member_id']),
+                 ],order='id desc', limit=1)
+        else:
+            membership_id = request.env['member.attendance'].sudo().search(
+                [('member_ship_id', '=', False), ('member_id', '=', kwargs['member_id']),
+                 ], order='id desc', limit=1)
         # if kwargs['member_ship_id'] != 0:
         #     membership_id = request.env['member.attendance'].sudo().search(
         #         [('date', '=', kwargs['date']),
